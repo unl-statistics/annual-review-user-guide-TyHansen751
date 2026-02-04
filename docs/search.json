@@ -1,0 +1,45 @@
+[
+  {
+    "objectID": "topic.html",
+    "href": "topic.html",
+    "title": "Appendix A — Topic",
+    "section": "",
+    "text": "This user guide will cover the basic use of autoencoders for dimensionality reduction. It will explain what autoencoders do, how they compress high dimensional data into a lower dimensional representation, and how this differs from traditional methods like PCA. The focus is on practical use rather than theory, with attention to choosing an appropriate bottleneck size, training the model using reconstruction loss, and understanding the output as a learned feature representation.\nThe guide will reference common software packages such as Keras and Torch, with PCA from R’s prcomp used as a comparison baseline. It will discuss when to use autoencoders and when not to use them. By the end, users will know how to apply an autoencoder at a high level.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Topic</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html",
+    "href": "guide.html",
+    "title": "1  User Guide",
+    "section": "",
+    "text": "First off, you should change this section title to something more appropriate.\nNext, well, that’s up to you. Good luck!",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>User Guide</span>"
+    ]
+  },
+  {
+    "objectID": "needs.html",
+    "href": "needs.html",
+    "title": "Appendix B — Needs Assessment",
+    "section": "",
+    "text": "What does someone trying to accomplish your chosen task need help with?\nWhat parts are likely to be tricky?\nWhat resources are already available on this topic that may be helpful? Look for e.g. software vignettes, package documentation, papers about software packages, and so on.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Needs Assessment</span>"
+    ]
+  },
+  {
+    "objectID": "task-analysis.html",
+    "href": "task-analysis.html",
+    "title": "Appendix C — Task Analysis",
+    "section": "",
+    "text": "C.1 Additional Guidance\nHere are some questions to guide you through the process of doing a task analysis. You don’t have to specifically answer each one of these (and some may not apply), but they should get you started thinking in the right direction.\nWhat are the prerequisites, for both knowledge and e.g. software setup?\nWhat are the basic requirements for any data that the method is used on? - Are missing values allowed? - Should the data be confined within a certain range? - Does the data have to be approximately normally distributed?\nWhat are the basic components of the task? - Outline these in a bit more detail\nWhat decisions does the user need to be prepared to make on the fly?\nWhat questions should the user ask of the “first draft” of the product? What adjustments may need to be made?\nYour check-in should answer these basic questions (and similar concerns that apply more directly to your topic).\nOnce you’ve completed the check-in, you can use this section to jump-start an introduction/set-up/getting started section in your user guide. This document should remain as an appendix to your main report.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Task Analysis</span>"
+    ]
+  }
+]
