@@ -4,3 +4,13 @@ This user guide will cover the basic use of autoencoders for dimensionality redu
 
 The guide will reference common software packages such as Keras and Torch, with PCA from R’s prcomp used as a comparison baseline. It will discuss when to use autoencoders and when not to use them. By the end, users will know how to apply an autoencoder at a high level.
 
+
+
+::: callout-note
+# Comments/suggestions
+
+This sounds great -- make sure you use lots of pictures to show the dimensionality reduction relative to PCA -- you may also want to compare to t-SNE and other nonlinear dimension reduction techniques. You might look up some work by Di Cook and Jayani Lackshika (spelling on the last name is ???) on visualizing multidimensional data that has been run through dimension reduction tools. 
+
+Be careful with setting up Keras/Torch reproducibly - remember that code has to run on my machine, not just yours. So your user guide will need to be very detailed as far as the python environment setup. More detailed than most python packages... sigh. 
+
+:::
