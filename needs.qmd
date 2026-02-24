@@ -1,9 +1,13 @@
 # Needs Assessment {.appendix}
 
-What does someone trying to accomplish your chosen task need help with? 
+#### What does someone trying to accomplish your chosen task need help with?
 
-What parts are likely to be tricky? 
+A statistician familiar with PCA but new to deep learning will need help understanding what an autoencoder does, how to build and train one, and how to extract the compressed representation for downstream use.
 
-What resources are already available on this topic that may be helpful? Look for e.g. software vignettes, package documentation, papers about software packages, and so on.
+#### What parts are likely to be tricky?
 
+There is no equivalent to a scree plot for choosing the bottleneck size, and the compressed dimensions have no direct interpretation. Knowing when to stop training and how to extract just the encoder after training are also difficult parts.
 
+#### What resources are already available on this topic that may be helpful? Look for e.g. software vignettes, package documentation, papers about software packages, and so on.
+
+The paper cites Goodfellow et al. (2016) Deep Learning and Murphy (2022) Probabilistic Machine Learning as general references. Doersch (2021) "Tutorial on Variational Autoencoders" is a useful starting point for autoencoders specifically. Keras and PyTorch both have official documentation with working examples, and R's prcomp documentation provides a helpful PCA baseline for comparison.
