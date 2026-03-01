@@ -11,3 +11,9 @@ There is no equivalent to a scree plot for choosing the bottleneck size, and the
 #### What resources are already available on this topic that may be helpful? Look for e.g. software vignettes, package documentation, papers about software packages, and so on.
 
 The paper cites Goodfellow et al. (2016) Deep Learning and Murphy (2022) Probabilistic Machine Learning as general references. Doersch (2021) "Tutorial on Variational Autoencoders" is a useful starting point for autoencoders specifically. Keras and PyTorch both have official documentation with working examples, and R's prcomp documentation provides a helpful PCA baseline for comparison.
+
+::: callout-note
+
+I highly recommend finding some blog posts and other online resources that break this down in a non-academic fashion to serve as additional resources. Ideally things that don't run only in a Jupyter notebook (personal bias -- I can never replicate those things).
+
+:::
