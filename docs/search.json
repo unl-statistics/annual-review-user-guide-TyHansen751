@@ -4,7 +4,7 @@
     "href": "topic.html",
     "title": "Appendix A — Topic",
     "section": "",
-    "text": "This user guide will cover the basic use of autoencoders for dimensionality reduction. It will explain what autoencoders do, how they compress high dimensional data into a lower dimensional representation, and how this differs from traditional methods like PCA. The focus is on practical use rather than theory, with attention to choosing an appropriate bottleneck size, training the model using reconstruction loss, and understanding the output as a learned feature representation.\nThe guide will reference common software packages such as Keras and Torch, with PCA from R’s prcomp used as a comparison baseline. It will discuss when to use autoencoders and when not to use them. By the end, users will know how to apply an autoencoder at a high level.",
+    "text": "This user guide will cover the basic use of autoencoders for dimensionality reduction. It will explain what autoencoders do, how they compress high dimensional data into a lower dimensional representation, and how this differs from traditional methods like PCA. The focus is on practical use rather than theory, with attention to choosing an appropriate bottleneck size, training the model using reconstruction loss, and understanding the output as a learned feature representation.\nThe guide will reference common software packages such as Keras and Torch, with PCA from R’s prcomp used as a comparison baseline. It will discuss when to use autoencoders and when not to use them. By the end, users will know how to apply an autoencoder at a high level.\n\n\n\n\n\n\nComments/suggestions\n\n\n\nThis sounds great – make sure you use lots of pictures to show the dimensionality reduction relative to PCA – you may also want to compare to t-SNE and other nonlinear dimension reduction techniques. You might look up some work by Di Cook and Jayani Lackshika (spelling on the last name is ???) on visualizing multidimensional data that has been run through dimension reduction tools.\nBe careful with setting up Keras/Torch reproducibly - remember that code has to run on my machine, not just yours. So your user guide will need to be very detailed as far as the python environment setup. More detailed than most python packages… sigh.",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Topic</span>"
@@ -13,11 +13,11 @@
   {
     "objectID": "guide.html",
     "href": "guide.html",
-    "title": "1  User Guide",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Guide for Statisticians",
     "section": "",
-    "text": "First off, you should change this section title to something more appropriate.\nNext, well, that’s up to you. Good luck!",
+    "text": "2 What Is an Autoencoder?\nYou already know PCA: compress many columns into fewer that still capture the important patterns. An autoencoder does the same thing using a neural network — so it can find curved, nonlinear patterns that PCA cannot (Nalisnick, Smyth, and Tran 2023).\nThe network has three parts:\nFigure 2.1: The three parts of an autoencoder.\nThe network trains by trying to reconstruct its own input. Because everything must pass through the narrow bottleneck, it is forced to learn a compact summary of the data.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>User Guide</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Guide for Statisticians</span>"
     ]
   },
   {
@@ -25,7 +25,7 @@
     "href": "needs.html",
     "title": "Appendix B — Needs Assessment",
     "section": "",
-    "text": "B.0.0.1 What does someone trying to accomplish your chosen task need help with?\nA statistician familiar with PCA but new to deep learning will need help understanding what an autoencoder does, how to build and train one, and how to extract the compressed representation for downstream use.\n\n\nB.0.0.2 What parts are likely to be tricky?\nThere is no equivalent to a scree plot for choosing the bottleneck size, and the compressed dimensions have no direct interpretation. Knowing when to stop training and how to extract just the encoder after training are also difficult parts.\n\n\nB.0.0.3 What resources are already available on this topic that may be helpful? Look for e.g. software vignettes, package documentation, papers about software packages, and so on.\nThe paper cites Goodfellow et al. (2016) Deep Learning and Murphy (2022) Probabilistic Machine Learning as general references. Doersch (2021) “Tutorial on Variational Autoencoders” is a useful starting point for autoencoders specifically. Keras and PyTorch both have official documentation with working examples, and R’s prcomp documentation provides a helpful PCA baseline for comparison.",
+    "text": "B.0.0.1 What does someone trying to accomplish your chosen task need help with?\nA statistician familiar withPCA but new to deep learning will need help understanding what an autoencoder does, how to build and train one, and how to extract the compressed representation for downstream use.\n\n\nB.0.0.2 What parts are likely to be tricky?\nThere is no equivalent to a scree plot for choosing the bottleneck size, and the compressed dimensions have no direct interpretation. Knowing when to stop training and how to extract just the encoder after training are also difficult parts.\n\n\nB.0.0.3 What resources are already available on this topic that may be helpful? Look for e.g. software vignettes, package documentation, papers about software packages, and so on.\nThe paper cites Goodfellow et al. (2016) Deep Learning and Murphy (2022) Probabilistic Machine Learning as general references. Doersch (2021) “Tutorial on Variational Autoencoders” is a useful starting point for autoencoders specifically. Keras and PyTorch both have official documentation with working examples, and R’s prcomp documentation provides a helpful PCA baseline for comparison.",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Needs Assessment</span>"
@@ -51,6 +51,506 @@
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>C</span>  <span class='chapter-title'>Task Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#what-pca-does",
+    "href": "guide.html#what-pca-does",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "3.1 What PCA Does",
+    "text": "3.1 What PCA Does\nPCA finds a set of orthogonal linear directions — principal components — that capture the maximum variance in your data. If your data matrix \\(X\\) has \\(p\\) columns (features), PCA finds a projection \\(Z = XW\\) where \\(W\\) is a \\(p \\times k\\) matrix of loadings and \\(k \\ll p\\). You recover an approximation of the original data as \\(\\hat{X} = ZW^\\top\\).\nThis is a two-step process:\n\nEncode: \\(Z = XW\\) (compress from \\(p\\) to \\(k\\) dimensions)\nDecode: \\(\\hat{X} = ZW^\\top\\) (reconstruct from \\(k\\) back to \\(p\\) dimensions)\n\nThe quality of the reconstruction is measured by how much variance is retained, which is why the scree plot — showing variance explained by each component — is the standard diagnostic for choosing \\(k\\).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#what-an-autoencoder-does",
+    "href": "guide.html#what-an-autoencoder-does",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "3.2 What an Autoencoder Does",
+    "text": "3.2 What an Autoencoder Does\nAn autoencoder does the same two steps, but replaces the linear projection with neural networks that can learn nonlinear transformations:\n\nEncoder: A neural network \\(f_\\theta\\) that maps input \\(x \\in \\mathbb{R}^p\\) to a compressed representation \\(z \\in \\mathbb{R}^k\\)\nDecoder: A neural network \\(g_\\phi\\) that maps \\(z\\) back to a reconstruction \\(\\hat{x} \\in \\mathbb{R}^p\\)\n\nThe network is trained end-to-end by minimizing reconstruction loss — how different \\(\\hat{x}\\) is from \\(x\\). No labels are needed; the input is its own target.\nOriginal data (p features)\n        │\n   ┌────▼─────┐\n   │ ENCODER  │  ← neural network layers, getting narrower\n   └────┬─────┘\n        │\n   ┌────▼─────┐\n   │BOTTLENECK│  ← k dimensions (k &lt;&lt; p); this is your compressed representation\n   └────┬─────┘\n        │\n   ┌────▼─────┐\n   │ DECODER  │  ← neural network layers, getting wider again\n   └────┬─────┘\n        │\nReconstructed data (p features)\nBecause the network must pass information through a narrow bottleneck, it is forced to learn a compact representation of the data’s most important structure. Unlike PCA, this structure can be nonlinear.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#how-autoencoders-compare-to-pca-and-t-sne",
+    "href": "guide.html#how-autoencoders-compare-to-pca-and-t-sne",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "3.3 How Autoencoders Compare to PCA and t-SNE",
+    "text": "3.3 How Autoencoders Compare to PCA and t-SNE\nThere are several dimensionality reduction methods available, each with different strengths. Table 3.1 summarizes the most commonly used ones.\n\n\n\nTable 3.1: Comparison of dimensionality reduction methods\n\n\n\n\n\nProperty\nPCA\nt-SNE\nAutoencoder\n\n\n\n\nTransformation type\nLinear\nNonlinear\nNonlinear\n\n\nAxes are interpretable\nYes (variance %)\nNo\nNo\n\n\nHandles complex structure\nNo\nYes\nYes\n\n\nGood for downstream modeling\nYes\nNot recommended\nYes\n\n\nGood for 2D/3D visualization\nYes\nExcellent\nPossible\n\n\nRequires training\nNo\nNo\nYes\n\n\nReproducible by default\nYes\nNo (stochastic)\nYes (with seeds)\n\n\nEasy to tune\nYes (scree plot)\nModerate\nHarder\n\n\nWorks on images/audio/text\nPoor\nPossible\nExcellent\n\n\n\n\n\n\nThe key trade-off is this: PCA is fast, interpretable, and requires no training, but it can only capture linear structure. t-SNE is excellent for visualization but its output cannot be used in a downstream model. Autoencoders sit in between — they can capture nonlinear structure and their output is useful for modeling, but they require more setup, more data, and more tuning.\n\n\n\n\n\n\nA useful intuition\n\n\n\nThink of PCA as finding the best flat shadow of your data on a lower-dimensional plane. An autoencoder learns a curved surface to project onto — one shaped to your specific dataset. For data with genuinely nonlinear structure (images, time series, gene expression), this matters a great deal. For data that is mostly linear, PCA will often do just as well with far less effort.\n\n\nWork by (cook2018?) and colleagues on interactive visualization of high-dimensional data suggests that examining the reduced representation visually — rotating it, coloring by known groups — is an important step in evaluating any dimensionality reduction method, autoencoder or otherwise.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#option-a-pytorch-setup-recommended",
+    "href": "guide.html#option-a-pytorch-setup-recommended",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.1 Option A: PyTorch Setup (Recommended)",
+    "text": "4.1 Option A: PyTorch Setup (Recommended)\nPyTorch is generally preferred for research and custom architectures. It uses an imperative (eager) execution model that is easier to debug.\n\n4.1.1 Step 1: Create an isolated environment\n# Using conda (recommended for managing CUDA dependencies)\nconda create -n autoencoder-env python=3.10\nconda activate autoencoder-env\nOr using venv:\npython3.10 -m venv autoencoder-env\nsource autoencoder-env/bin/activate   # Mac/Linux\nautoencoder-env\\Scripts\\activate      # Windows\n\n\n4.1.2 Step 2: Install PyTorch\nGo to https://pytorch.org/get-started/locally/ and use the selector to get the exact install command for your OS and hardware. For CPU-only (no GPU):\npip install torch==2.2.0 torchvision==0.17.0 --index-url https://download.pytorch.org/whl/cpu\nFor CUDA 11.8 (NVIDIA GPU):\npip install torch==2.2.0 torchvision==0.17.0 --index-url https://download.pytorch.org/whl/cu118\n\n\n4.1.3 Step 3: Install supporting packages\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3 seaborn==0.13.2\n\n\n4.1.4 Step 4: Pin your environment\npip freeze &gt; requirements.txt\nAnyone reproducing your work installs with:\npip install -r requirements.txt\n\n\n4.1.5 Step 5: Set random seeds\nNeural networks involve randomness at multiple points: weight initialization, mini-batch sampling, and (on GPUs) non-deterministic operations. To make results reproducible, set seeds at the top of every script:\nimport random\nimport numpy as np\nimport torch\n\nSEED = 42\n\nrandom.seed(SEED)\nnp.random.seed(SEED)\ntorch.manual_seed(SEED)\ntorch.cuda.manual_seed_all(SEED)\n\n# For full determinism on GPU (may slow training slightly)\ntorch.backends.cudnn.deterministic = True\ntorch.backends.cudnn.benchmark = False",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#option-b-keras-tensorflow-backend-setup",
+    "href": "guide.html#option-b-keras-tensorflow-backend-setup",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.2 Option B: Keras (TensorFlow backend) Setup",
+    "text": "4.2 Option B: Keras (TensorFlow backend) Setup\nKeras provides a higher-level API that is often easier for those coming from R or scikit-learn.\n\n4.2.1 Step 1: Create environment\nconda create -n autoencoder-keras python=3.10\nconda activate autoencoder-keras\n\n\n4.2.2 Step 2: Install TensorFlow and Keras\npip install tensorflow==2.15.0\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3\n\n\n\n\n\n\nTensorFlow on Apple Silicon (M1/M2/M3 Macs)\n\n\n\nStandard TensorFlow does not run natively on Apple Silicon. Use the Apple-maintained fork instead:\npip install tensorflow-macos==2.15.0\npip install tensorflow-metal  # enables GPU acceleration\n\n\n\n\n4.2.3 Step 3: Set random seeds in Keras\nimport os\nimport random\nimport numpy as np\nimport tensorflow as tf\n\nSEED = 42\n\nos.environ['PYTHONHASHSEED'] = str(SEED)\nrandom.seed(SEED)\nnp.random.seed(SEED)\ntf.random.set_seed(SEED)\n\n\n\n\n\n\nFull reproducibility on GPU is not guaranteed\n\n\n\nEven with all seeds set, GPU operations may be non-deterministic due to parallel floating-point operations. If exact reproducibility is critical, run on CPU or accept that results may vary slightly across runs. Document which hardware you used.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#verifying-your-installation",
+    "href": "guide.html#verifying-your-installation",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.3 Verifying Your Installation",
+    "text": "4.3 Verifying Your Installation\nRun the following to confirm everything works:\n# PyTorch check\nimport torch\nprint(torch.__version__)\nprint(\"GPU available:\", torch.cuda.is_available())\n\n# Keras/TF check\nimport tensorflow as tf\nprint(tf.__version__)\nprint(\"GPU devices:\", tf.config.list_physical_devices('GPU'))",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#what-your-data-must-look-like",
+    "href": "guide.html#what-your-data-must-look-like",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "5.1 What Your Data Must Look Like",
+    "text": "5.1 What Your Data Must Look Like\nAutoencoders have specific data requirements that differ somewhat from PCA:\n\nNumeric only: All inputs must be numbers. Categorical variables must be encoded first (one-hot or ordinal encoding, depending on context).\nNo missing values: Neural networks cannot handle NaN. Impute missing values before training. Simple mean/median imputation is fine for getting started; more sophisticated methods (e.g., multiple imputation) are worth considering for high-missingness data.\nNormalized inputs: This is critical. Neural networks are sensitive to the scale of inputs in a way that PCA (which centers data) is not. Features on very different scales will cause gradients to be dominated by large-magnitude features.\nEnough data: As a rough rule of thumb, autoencoders are rarely worth the effort for datasets with fewer than a few thousand rows. For small data, PCA will match or beat an autoencoder’s performance.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#normalization",
+    "href": "guide.html#normalization",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "5.2 Normalization",
+    "text": "5.2 Normalization\nThe standard approach is min-max scaling to [0, 1] or standardization to zero mean and unit variance. The right choice depends on your output activation:\n\nIf your decoder’s output layer uses sigmoid activation, scale inputs to [0, 1] with min-max scaling\nIf your decoder’s output layer uses linear activation, use standardization (zero mean, unit variance)\n\n\n\n\n\n\n\nFit the scaler on training data only\n\n\n\nA common mistake is to normalize using the full dataset before splitting into train/validation. This leaks information from the validation set into training. Always fit your scaler on training data, then apply it to both train and validation sets.\n\n\nfrom sklearn.preprocessing import MinMaxScaler\nfrom sklearn.model_selection import train_test_split\nimport pandas as pd\n\n# Load data\ndf = pd.read_csv(\"your_data.csv\")\nX = df.values  # assumes all columns are numeric\n\n# Split first, then normalize\nX_train, X_val = train_test_split(X, test_size=0.2, random_state=42)\n\n# Fit scaler on training data only\nscaler = MinMaxScaler()\nX_train = scaler.fit_transform(X_train)\nX_val = scaler.transform(X_val)  # apply (don't refit) to validation",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#choosing-an-architecture",
+    "href": "guide.html#choosing-an-architecture",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "6.1 Choosing an Architecture",
+    "text": "6.1 Choosing an Architecture\nAn autoencoder has three parts: the encoder, the bottleneck, and the decoder. The encoder and decoder are typically mirror images of each other.\n\n6.1.1 The bottleneck size\nChoosing the bottleneck dimension \\(k\\) is the central design decision, and it is harder than choosing the number of PCA components. With PCA, the scree plot gives you a natural elbow to look for. With autoencoders, there is no equivalent diagnostic — you must choose \\(k\\) based on reasoning about the problem and adjust based on reconstruction quality.\nSome practical guidance:\n\nStart with domain knowledge: If you expect 5–10 meaningful latent factors in your data, start with a bottleneck around that size.\nTry several values: Train autoencoders with \\(k \\in \\{2, 4, 8, 16, \\ldots\\}\\) and compare reconstruction loss on the validation set.\nConsider the downstream task: If you plan to cluster in the latent space, 2–10 dimensions is usually easier to work with. If you are feeding the representation into a predictive model, more dimensions are acceptable.\nReconstruction loss alone is not sufficient: A model can have very low reconstruction loss while producing a useless latent space (e.g., by memorizing). Always evaluate the representation qualitatively.\n\n\n\n6.1.2 Layer sizes\nA common starting architecture uses a geometric progression of layer sizes between the input dimension and the bottleneck. For input dimension \\(p = 100\\) and bottleneck \\(k = 8\\):\nInput (100) → 64 → 32 → 16 → Bottleneck (8) → 16 → 32 → 64 → Output (100)\nThere is no universal rule here. Wider and deeper networks can capture more complex structure but are harder to train and more prone to overfitting.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#implementation-in-pytorch",
+    "href": "guide.html#implementation-in-pytorch",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "6.2 Implementation in PyTorch",
+    "text": "6.2 Implementation in PyTorch\nimport torch\nimport torch.nn as nn\n\nclass Autoencoder(nn.Module):\n    def __init__(self, input_dim, bottleneck_dim):\n        super().__init__()\n\n        self.encoder = nn.Sequential(\n            nn.Linear(input_dim, 64),\n            nn.ReLU(),\n            nn.Linear(64, 32),\n            nn.ReLU(),\n            nn.Linear(32, bottleneck_dim)\n        )\n\n        self.decoder = nn.Sequential(\n            nn.Linear(bottleneck_dim, 32),\n            nn.ReLU(),\n            nn.Linear(32, 64),\n            nn.ReLU(),\n            nn.Linear(64, input_dim),\n            nn.Sigmoid()   # use Sigmoid if inputs are scaled to [0,1]\n        )\n\n    def forward(self, x):\n        z = self.encoder(x)\n        x_hat = self.decoder(z)\n        return x_hat\n\n    def encode(self, x):\n        \"\"\"Call this to get just the compressed representation.\"\"\"\n        return self.encoder(x)\n\n\n\n\n\n\nWhy ReLU?\n\n\n\nThe ReLU (Rectified Linear Unit) activation function — \\(f(x) = \\max(0, x)\\) — is the default choice for hidden layers in modern networks. It is computationally cheap and does not suffer from the vanishing gradient problem that affects sigmoid activations in deep networks. The output layer activation is different: use Sigmoid for [0,1] outputs or no activation (linear) for unbounded outputs.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#implementation-in-keras",
+    "href": "guide.html#implementation-in-keras",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "6.3 Implementation in Keras",
+    "text": "6.3 Implementation in Keras\nimport tensorflow as tf\nfrom tensorflow import keras\nfrom tensorflow.keras import layers\n\ndef build_autoencoder(input_dim, bottleneck_dim):\n    # --- Encoder ---\n    inputs = keras.Input(shape=(input_dim,))\n    x = layers.Dense(64, activation=\"relu\")(inputs)\n    x = layers.Dense(32, activation=\"relu\")(x)\n    z = layers.Dense(bottleneck_dim, name=\"bottleneck\")(x)\n\n    # --- Decoder ---\n    x = layers.Dense(32, activation=\"relu\")(z)\n    x = layers.Dense(64, activation=\"relu\")(x)\n    outputs = layers.Dense(input_dim, activation=\"sigmoid\")(x)\n\n    # Full autoencoder\n    autoencoder = keras.Model(inputs, outputs, name=\"autoencoder\")\n\n    # Encoder only (for extracting representations)\n    encoder = keras.Model(inputs, z, name=\"encoder\")\n\n    return autoencoder, encoder\n\nautoencoder, encoder = build_autoencoder(input_dim=100, bottleneck_dim=8)\nautoencoder.summary()",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#reconstruction-loss",
+    "href": "guide.html#reconstruction-loss",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "7.1 Reconstruction Loss",
+    "text": "7.1 Reconstruction Loss\nThe training objective is to minimize the difference between the input \\(x\\) and the reconstruction \\(\\hat{x}\\). For continuous, normalized data the standard choice is mean squared error (MSE):\n\\[\\mathcal{L} = \\frac{1}{n}\\sum_{i=1}^{n} \\|x_i - \\hat{x}_i\\|^2\\]\nFor binary data (e.g., one-hot encoded features or pixel values treated as Bernoulli), binary cross-entropy is more appropriate:\n\\[\\mathcal{L} = -\\frac{1}{n}\\sum_{i=1}^{n} \\left[ x_i \\log \\hat{x}_i + (1 - x_i) \\log(1 - \\hat{x}_i) \\right]\\]",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#training-loop-in-pytorch",
+    "href": "guide.html#training-loop-in-pytorch",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "7.2 Training Loop in PyTorch",
+    "text": "7.2 Training Loop in PyTorch\nimport torch\nfrom torch.utils.data import DataLoader, TensorDataset\n\n# Convert numpy arrays to PyTorch tensors\nX_train_t = torch.tensor(X_train, dtype=torch.float32)\nX_val_t   = torch.tensor(X_val,   dtype=torch.float32)\n\ntrain_loader = DataLoader(TensorDataset(X_train_t), batch_size=64, shuffle=True)\n\n# Initialize model, loss, optimizer\nINPUT_DIM      = X_train.shape[1]\nBOTTLENECK_DIM = 8\nEPOCHS         = 100\nLR             = 1e-3\n\nmodel     = Autoencoder(INPUT_DIM, BOTTLENECK_DIM)\ncriterion = nn.MSELoss()\noptimizer = torch.optim.Adam(model.parameters(), lr=LR)\n\ntrain_losses, val_losses = [], []\n\nfor epoch in range(EPOCHS):\n    # --- Training ---\n    model.train()\n    epoch_loss = 0\n    for (batch,) in train_loader:\n        optimizer.zero_grad()\n        recon = model(batch)\n        loss  = criterion(recon, batch)\n        loss.backward()\n        optimizer.step()\n        epoch_loss += loss.item() * len(batch)\n    train_losses.append(epoch_loss / len(X_train_t))\n\n    # --- Validation ---\n    model.eval()\n    with torch.no_grad():\n        val_recon = model(X_val_t)\n        val_loss  = criterion(val_recon, X_val_t).item()\n    val_losses.append(val_loss)\n\n    if (epoch + 1) % 10 == 0:\n        print(f\"Epoch {epoch+1:3d} | Train loss: {train_losses[-1]:.4f} | Val loss: {val_losses[-1]:.4f}\")",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#training-in-keras",
+    "href": "guide.html#training-in-keras",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "7.3 Training in Keras",
+    "text": "7.3 Training in Keras\nKeras handles most of the above automatically:\nautoencoder, encoder = build_autoencoder(input_dim=X_train.shape[1], bottleneck_dim=8)\nautoencoder.compile(optimizer=\"adam\", loss=\"mse\")\n\nhistory = autoencoder.fit(\n    X_train, X_train,                     # input = target (reconstruction)\n    epochs=100,\n    batch_size=64,\n    validation_data=(X_val, X_val)\n)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#monitoring-training",
+    "href": "guide.html#monitoring-training",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "7.4 Monitoring Training",
+    "text": "7.4 Monitoring Training\nAlways plot training and validation loss together. This is the closest thing to a diagnostic plot that autoencoders offer.\nimport matplotlib.pyplot as plt\n\nplt.figure(figsize=(8, 4))\nplt.plot(train_losses, label=\"Train loss\")\nplt.plot(val_losses,   label=\"Validation loss\")\nplt.xlabel(\"Epoch\")\nplt.ylabel(\"Reconstruction loss (MSE)\")\nplt.title(\"Autoencoder training curves\")\nplt.legend()\nplt.tight_layout()\nplt.show()\n\n7.4.1 What to look for\n\nBoth losses decrease and converge: Training is going well.\nValidation loss plateaus while training loss keeps falling: Overfitting. Add dropout, reduce model size, or stop early.\nBoth losses plateau very early at a high value: The model is underfitting. Try a larger architecture or more epochs.\nLoss oscillates wildly: The learning rate is too high. Try reducing it (e.g., lr=1e-4).\n\n\n\n\n\n\n\nEarly stopping\n\n\n\nRather than guessing the right number of epochs, use early stopping: halt training when validation loss has not improved for some number of epochs (“patience”). This prevents overfitting and saves time.\nPyTorch (manual):\nbest_val = float('inf')\npatience, wait = 15, 0\nfor epoch in range(500):\n    # ... training loop ...\n    if val_loss &lt; best_val:\n        best_val = val_loss\n        torch.save(model.state_dict(), \"best_model.pt\")\n        wait = 0\n    else:\n        wait += 1\n        if wait &gt;= patience:\n            print(f\"Early stopping at epoch {epoch+1}\")\n            break\nmodel.load_state_dict(torch.load(\"best_model.pt\"))\nKeras (built-in):\nearly_stop = keras.callbacks.EarlyStopping(\n    monitor=\"val_loss\", patience=15, restore_best_weights=True\n)\nhistory = autoencoder.fit(..., callbacks=[early_stop])",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#extracting-in-pytorch",
+    "href": "guide.html#extracting-in-pytorch",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "8.1 Extracting in PyTorch",
+    "text": "8.1 Extracting in PyTorch\nmodel.eval()\nwith torch.no_grad():\n    X_train_encoded = model.encode(X_train_t).numpy()\n    X_val_encoded   = model.encode(X_val_t).numpy()\n\nprint(X_train_encoded.shape)  # (n_train, bottleneck_dim)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#extracting-in-keras",
+    "href": "guide.html#extracting-in-keras",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "8.2 Extracting in Keras",
+    "text": "8.2 Extracting in Keras\nIn Keras, we already built a separate encoder model during construction:\nX_train_encoded = encoder.predict(X_train)\nX_val_encoded   = encoder.predict(X_val)\n\nprint(X_train_encoded.shape)  # (n_train, bottleneck_dim)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#using-the-representation-downstream",
+    "href": "guide.html#using-the-representation-downstream",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "8.3 Using the Representation Downstream",
+    "text": "8.3 Using the Representation Downstream\nThe encoded matrix can be used like any other feature matrix — for clustering, classification, regression, or visualization.\nfrom sklearn.cluster import KMeans\nfrom sklearn.linear_model import LogisticRegression\n\n# Clustering in latent space\nkmeans = KMeans(n_clusters=5, random_state=42)\ncluster_labels = kmeans.fit_predict(X_train_encoded)\n\n# Classification using encoded features\nclf = LogisticRegression()\nclf.fit(X_train_encoded, y_train)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#visualizing-the-latent-space",
+    "href": "guide.html#visualizing-the-latent-space",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "8.4 Visualizing the Latent Space",
+    "text": "8.4 Visualizing the Latent Space\nIf your bottleneck is 2D, you can visualize directly. For higher dimensions, apply PCA or t-SNE on top of the encoded representation:\nimport matplotlib.pyplot as plt\nfrom sklearn.decomposition import PCA\n\n# Reduce to 2D for visualization (if bottleneck &gt; 2)\npca_vis = PCA(n_components=2)\nZ_2d = pca_vis.fit_transform(X_train_encoded)\n\nplt.figure(figsize=(7, 5))\nplt.scatter(Z_2d[:, 0], Z_2d[:, 1], alpha=0.5, s=10)\nplt.xlabel(\"PC1 of latent space\")\nplt.ylabel(\"PC2 of latent space\")\nplt.title(\"2D projection of autoencoder latent space\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\nThe latent dimensions have no natural interpretation\n\n\n\nUnlike PCA, where the first component explains the most variance, the dimensions of an autoencoder’s bottleneck have no inherent ordering or meaning. Two autoencoders trained on the same data with the same architecture may learn different latent representations that are equally valid. Downstream evaluation (does it help my clustering / prediction task?) is the right metric.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#reconstruction-loss-curve",
+    "href": "guide.html#reconstruction-loss-curve",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "9.1 Reconstruction loss curve",
+    "text": "9.1 Reconstruction loss curve\nTrain autoencoders with different bottleneck sizes and plot validation reconstruction loss as a function of \\(k\\):\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nbottleneck_sizes = [2, 4, 8, 16, 32]\nval_losses_by_k  = {}\n\nfor k in bottleneck_sizes:\n    model = Autoencoder(INPUT_DIM, k)\n    # ... train model ...\n    val_losses_by_k[k] = final_val_loss\n\nplt.figure(figsize=(7, 4))\nplt.plot(list(val_losses_by_k.keys()), list(val_losses_by_k.values()), marker='o')\nplt.xlabel(\"Bottleneck dimension (k)\")\nplt.ylabel(\"Validation reconstruction loss\")\nplt.title(\"Reconstruction loss vs. bottleneck size\")\nplt.tight_layout()\nplt.show()\nLook for an elbow in this curve — the point where increasing \\(k\\) yields diminishing returns in reconstruction quality. This is the closest analog to the PCA scree plot.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#downstream-task-performance",
+    "href": "guide.html#downstream-task-performance",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "9.2 Downstream task performance",
+    "text": "9.2 Downstream task performance\nIf you have a downstream task (e.g., predicting an outcome, clustering samples), evaluate performance at each \\(k\\) using the encoded representations. Choose the smallest \\(k\\) that achieves acceptable downstream performance.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "User Guide: Annual Review Article Topic",
+    "section": "",
+    "text": "Assignment Flow\nThis project is set up to scaffold this user guide and set you up for success.\nStart at topic.qmd and identify a topic for your user guide.\nOnce you’ve proposed a topic and received my approval/feedback, you can convert the contents of topic.qmd into an introductory paragraph in your report. Please leave the topic.qmd file as an appendix, to document the different stages of this project.\nOnce we’ve agreed on a topic for your user guide, you will proceed to needs.qmd and task-analysis.qmd. Both will be submitted at the same check-in, and both will be included in your final report as appendices. You should be able to re-purpose most of the information in task-analysis.qmd to orient the user to different components of the task you’ve chosen.\nYour next step is to actually write the content that satisfies the work you outlined in task-analysis.qmd.\nOnce you’re finished with that, ideally, you’ll have plenty of time to edit and streamline your report. Feel free to trade reports with a friend and try to complete your friend’s task - this will help you both identify areas where the guide isn’t as clear. Try to complete the task with a different data set - that often helps find trouble spots.\nWhen you submit your final report, you may remove index.qmd from the _quarto.yml file, which will remove this chapter (which is quite unnecessary for your user) from the report. You should also take the time to make sure your name is listed as both author and copyright holder in the _quarto.yml file. Feel free to make a custom cover for your manual if you would like to do so. You can also tweak the CSS/theme for the book, so long as you’re conscious of accessibility concerns.\n\n\n\n\n\n\nBuilding the report\n\n\n\nIf you are using RStudio to complete this report, you can hit (Ctrl/Cmd)-Shift-B to build the whole report. You can also type quarto render . on the command line in the project folder to accomplish the same thing.\nIf you have questions about how to customize or debug your book, it may be helpful to start at the quarto book documentation (positpbcCreatingBook2024?).",
+    "crumbs": [
+      "Assignment Flow"
+    ]
+  },
+  {
+    "objectID": "guide.html#step-1-create-an-isolated-environment",
+    "href": "guide.html#step-1-create-an-isolated-environment",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.1 Step 1: Create an Isolated Environment",
+    "text": "4.1 Step 1: Create an Isolated Environment\nThink of this as a clean room for your project — packages installed here will not interfere with anything else on your system.\n# Create the environment (do this once)\nconda create -n autoencoder-env python=3.10\nconda activate autoencoder-env\nIf you do not have conda, use venv:\npython3.10 -m venv autoencoder-env\nsource autoencoder-env/bin/activate      # Mac or Linux\nautoencoder-env\\Scripts\\activate         # Windows",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#step-2-install-packages",
+    "href": "guide.html#step-2-install-packages",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.2 Step 2: Install Packages",
+    "text": "4.2 Step 2: Install Packages\nChoose either PyTorch or Keras — you do not need both. PyTorch is more flexible; Keras is simpler to read.\nPyTorch (CPU only — works on any machine):\npip install torch==2.2.0 --index-url https://download.pytorch.org/whl/cpu\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3\nKeras / TensorFlow:\npip install tensorflow==2.15.0\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3\n\n\n\n\n\n\nOn a Mac with an M1/M2/M3 chip?\n\n\n\nStandard TensorFlow will not install. Use this instead:\npip install tensorflow-macos==2.15.0\npip install tensorflow-metal",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#step-3-save-your-package-versions",
+    "href": "guide.html#step-3-save-your-package-versions",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.3 Step 3: Save Your Package Versions",
+    "text": "4.3 Step 3: Save Your Package Versions\nAfter installing, run this to create a record of exactly what you installed:\npip freeze &gt; requirements.txt\nAnyone else reproducing your work just runs pip install -r requirements.txt and gets the exact same setup.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#step-4-set-random-seeds",
+    "href": "guide.html#step-4-set-random-seeds",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.4 Step 4: Set Random Seeds",
+    "text": "4.4 Step 4: Set Random Seeds\nNeural networks use randomness in several places (weight initialization, data shuffling). Without fixing the seed, you will get slightly different results every run. Put this at the very top of your script:\nPyTorch:\nimport random, numpy as np, torch\n\nSEED = 42\nrandom.seed(SEED)\nnp.random.seed(SEED)\ntorch.manual_seed(SEED)\nKeras:\nimport os, random, numpy as np, tensorflow as tf\n\nSEED = 42\nos.environ['PYTHONHASHSEED'] = str(SEED)\nrandom.seed(SEED)\nnp.random.seed(SEED)\ntf.random.set_seed(SEED)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#what-the-data-must-look-like",
+    "href": "guide.html#what-the-data-must-look-like",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "5.1 What the Data Must Look Like",
+    "text": "5.1 What the Data Must Look Like\n\nAll numeric: Neural networks cannot handle text categories directly. Convert them to numbers first (e.g., one-hot encoding).\nNo missing values: Fill in any gaps before training. Simple mean imputation is fine to start.\nAll on a similar scale: A column ranging from 0–1 alongside a column ranging from 0–100,000 will confuse the network. Scale everything first.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#scaling-your-data",
+    "href": "guide.html#scaling-your-data",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "5.2 Scaling Your Data",
+    "text": "5.2 Scaling Your Data\nScale everything to the range [0, 1] before training.\n\n\n\n\n\n\nScale using training data only\n\n\n\nSplit your data into training and validation sets first, then scale. If you scale the whole dataset before splitting, information from the validation set leaks into training — a common mistake.\n\n\nfrom sklearn.preprocessing import MinMaxScaler\nfrom sklearn.model_selection import train_test_split\n\n# Split first\nX_train, X_val = train_test_split(X, test_size=0.2, random_state=42)\n\n# Then scale — fit on training data only\nscaler  = MinMaxScaler()\nX_train = scaler.fit_transform(X_train)\nX_val   = scaler.transform(X_val)   # apply the same scaling, do NOT refit",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#choosing-the-bottleneck-size",
+    "href": "guide.html#choosing-the-bottleneck-size",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "6.1 Choosing the Bottleneck Size",
+    "text": "6.1 Choosing the Bottleneck Size\nThe bottleneck size — how many compressed dimensions to use — is the main design decision. Unlike PCA, there is no scree plot to guide you. The approach is to try several values and compare.\n\nStart with 2, 4, 8, and 16\nLook for the point where adding more dimensions stops reducing the validation loss much\nChoose the smallest size that still gives useful results for your downstream task\n\nSee Chapter 9 for a full example of how to search.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#building-the-model-in-pytorch",
+    "href": "guide.html#building-the-model-in-pytorch",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "6.2 Building the Model in PyTorch",
+    "text": "6.2 Building the Model in PyTorch\nThe pattern below — layers getting smaller into the bottleneck, then getting larger again — is the standard starting point. You do not need to understand every line right away.\nimport torch.nn as nn\n\nclass Autoencoder(nn.Module):\n    def __init__(self, input_dim, bottleneck_dim):\n        super().__init__()\n\n        self.encoder = nn.Sequential(\n            nn.Linear(input_dim, 64),\n            nn.ReLU(),\n            nn.Linear(64, bottleneck_dim)\n        )\n\n        self.decoder = nn.Sequential(\n            nn.Linear(bottleneck_dim, 64),\n            nn.ReLU(),\n            nn.Linear(64, input_dim),\n            nn.Sigmoid()    # keeps output between 0 and 1, matching scaled input\n        )\n\n    def forward(self, x):\n        return self.decoder(self.encoder(x))\n\n    def encode(self, x):\n        return self.encoder(x)   # use this to get the compressed representation",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#building-the-model-in-keras",
+    "href": "guide.html#building-the-model-in-keras",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "6.3 Building the Model in Keras",
+    "text": "6.3 Building the Model in Keras\nfrom tensorflow import keras\nfrom tensorflow.keras import layers\n\ndef build_autoencoder(input_dim, bottleneck_dim):\n    inputs  = keras.Input(shape=(input_dim,))\n    encoded = layers.Dense(64, activation=\"relu\")(inputs)\n    z       = layers.Dense(bottleneck_dim, name=\"bottleneck\")(encoded)\n    decoded = layers.Dense(64, activation=\"relu\")(z)\n    outputs = layers.Dense(input_dim, activation=\"sigmoid\")(decoded)\n\n    autoencoder = keras.Model(inputs, outputs)\n    encoder     = keras.Model(inputs, z)   # for extracting representations later\n    return autoencoder, encoder\n\n\n\n\n\n\nWhat is ReLU?\n\n\n\nReLU is a simple rule: if the number coming in is positive, pass it through unchanged; if it is negative, output zero instead. It is the standard choice for hidden layers in modern networks because it is fast and trains reliably.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#what-training-means",
+    "href": "guide.html#what-training-means",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "7.1 What Training Means",
+    "text": "7.1 What Training Means\nTraining means repeatedly showing the network your data and nudging it slightly each time to make the reconstruction better. The measure of how bad the reconstruction is at any moment is called the loss. For our purposes, loss is the average squared difference between the original and the reconstructed data — lower is better.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#training-in-pytorch",
+    "href": "guide.html#training-in-pytorch",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "7.2 Training in PyTorch",
+    "text": "7.2 Training in PyTorch\nimport torch\nfrom torch.utils.data import DataLoader, TensorDataset\n\nX_train_t = torch.tensor(X_train, dtype=torch.float32)\nX_val_t   = torch.tensor(X_val,   dtype=torch.float32)\nloader    = DataLoader(TensorDataset(X_train_t), batch_size=64, shuffle=True)\n\nmodel     = Autoencoder(input_dim=X_train.shape[1], bottleneck_dim=8)\noptimizer = torch.optim.Adam(model.parameters(), lr=1e-3)\nloss_fn   = torch.nn.MSELoss()\n\ntrain_losses, val_losses = [], []\n\nfor epoch in range(100):\n    model.train()\n    for (batch,) in loader:\n        optimizer.zero_grad()\n        loss = loss_fn(model(batch), batch)\n        loss.backward()\n        optimizer.step()\n\n    model.eval()\n    with torch.no_grad():\n        train_losses.append(loss_fn(model(X_train_t), X_train_t).item())\n        val_losses.append(loss_fn(model(X_val_t),     X_val_t).item())\n\n    if (epoch + 1) % 10 == 0:\n        print(f\"Epoch {epoch+1}: train={train_losses[-1]:.4f}, val={val_losses[-1]:.4f}\")",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#reading-the-training-plot",
+    "href": "guide.html#reading-the-training-plot",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "7.4 Reading the Training Plot",
+    "text": "7.4 Reading the Training Plot\nAlways plot your losses after training. This is the main diagnostic tool you have — think of it as your residual plot.\nimport matplotlib.pyplot as plt\n\nplt.plot(train_losses, label=\"Training loss\")\nplt.plot(val_losses,   label=\"Validation loss\")\nplt.xlabel(\"Epoch\")\nplt.ylabel(\"Reconstruction loss\")\nplt.legend()\nplt.show()\nHere is what different patterns mean:\n\nBoth lines go down and level off close together → Training worked. You are done.\nTraining keeps falling but validation levels off or rises → Overfitting. Reduce the number of epochs or use early stopping.\nBoth lines barely move → The model is not learning. Try more epochs or a smaller learning rate.\nLines bounce around erratically → Learning rate is too high. Try lr=1e-4.\n\n\n\n\n\n\n\nUse early stopping so you do not have to guess the number of epochs\n\n\n\nKeras (built-in):\nearly_stop = keras.callbacks.EarlyStopping(\n    monitor=\"val_loss\", patience=15, restore_best_weights=True\n)\nhistory = autoencoder.fit(..., callbacks=[early_stop])\nPyTorch (add inside the epoch loop):\nif val_loss &lt; best_val_loss:\n    best_val_loss = val_loss\n    torch.save(model.state_dict(), \"best_model.pt\")\n    patience_counter = 0\nelse:\n    patience_counter += 1\n    if patience_counter &gt;= 15:\n        print(\"Stopping early\")\n        break",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#visualizing-the-compressed-space",
+    "href": "guide.html#visualizing-the-compressed-space",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "8.1 Visualizing the Compressed Space",
+    "text": "8.1 Visualizing the Compressed Space\nIf your bottleneck has more than 2 dimensions, reduce to 2D for plotting. It is perfectly fine to use PCA on top of the autoencoder output just for visualization:\nfrom sklearn.decomposition import PCA\nimport matplotlib.pyplot as plt\n\nZ_2d = PCA(n_components=2).fit_transform(Z_train)\n\nplt.scatter(Z_2d[:, 0], Z_2d[:, 1], alpha=0.4, s=10)\nplt.xlabel(\"Component 1\")\nplt.ylabel(\"Component 2\")\nplt.title(\"Autoencoder latent space (2D projection)\")\nplt.show()\nColor the points by a known grouping variable to see whether meaningful clusters have been separated — a useful check recommended by researchers working on high-dimensional data visualization (Cook, Laa, and Valencia 2018).\n\n\n\n\n\n\nThe compressed dimensions do not have labels\n\n\n\nUnlike PCA components (which you can rank by variance explained), the bottleneck dimensions have no natural ordering or interpretation. Judge the result by whether it helps your downstream task, not by what the individual numbers mean.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#step-1-install-python-3.10",
+    "href": "guide.html#step-1-install-python-3.10",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.1 Step 1: Install Python 3.10",
+    "text": "4.1 Step 1: Install Python 3.10\nDownload the installer for your operating system from https://www.python.org/downloads/release/python-31011/.\nVerify it worked:\npython3.10 --version",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#step-2-create-an-isolated-environment",
+    "href": "guide.html#step-2-create-an-isolated-environment",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.2 Step 2: Create an Isolated Environment",
+    "text": "4.2 Step 2: Create an Isolated Environment\nThis keeps your project’s packages separate from everything else on your machine.\nconda create -n ae-env python=3.10\nconda activate ae-env\nIf you do not have conda, use venv instead:\npython3.10 -m venv ae-env\n\n# Mac / Linux:\nsource ae-env/bin/activate\n\n# Windows:\nae-env\\Scripts\\activate\n\n\n\n\n\n\nEvery time you open a new terminal, you must re-run the activate command before working. If you forget, packages will not be found.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#step-3-install-packages",
+    "href": "guide.html#step-3-install-packages",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.3 Step 3: Install Packages",
+    "text": "4.3 Step 3: Install Packages\nChoose either PyTorch or Keras — you do not need both.\nPyTorch (CPU — works on any machine):\npip install torch==2.2.0 --index-url https://download.pytorch.org/whl/cpu\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3\nPyTorch (NVIDIA GPU with CUDA 11.8):\npip install torch==2.2.0 --index-url https://download.pytorch.org/whl/cu118\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3\nKeras / TensorFlow (Windows or Linux):\npip install tensorflow==2.15.0\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3\nKeras / TensorFlow (Mac with M1 / M2 / M3 chip):\npip install tensorflow-macos==2.15.0\npip install tensorflow-metal\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#step-4-save-your-package-versions",
+    "href": "guide.html#step-4-save-your-package-versions",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "4.4 Step 4: Save Your Package Versions",
+    "text": "4.4 Step 4: Save Your Package Versions\npip freeze &gt; requirements.txt\nInclude this file whenever you share your code. Anyone else reproducing your work runs:\npip install -r requirements.txt",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#sec-seeds",
+    "href": "guide.html#sec-seeds",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Guide for Statisticians",
+    "section": "4.4 Set Random Seeds",
+    "text": "4.4 Set Random Seeds\nPut this at the top of every script:\nPyTorch:\nimport random, numpy as np, torch\nrandom.seed(42); np.random.seed(42); torch.manual_seed(42)\ntorch.backends.cudnn.deterministic = True\ntorch.backends.cudnn.benchmark = False\nKeras:\nimport os, random, numpy as np, tensorflow as tf\nos.environ['PYTHONHASHSEED'] = '42'\nrandom.seed(42); np.random.seed(42); tf.random.set_seed(42)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#requirements",
+    "href": "guide.html#requirements",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "5.1 Requirements",
+    "text": "5.1 Requirements\nYour data must meet these conditions before training:\n\n\n\n\n\n\n\nRequirement\nWhy\n\n\n\n\nAll numeric\nNeural networks cannot handle raw categories or text\n\n\nNo missing values\nA single missing value will break training\n\n\nScaled to [0, 1]\nFeatures on very different scales confuse the network\n\n\nAt least a few thousand rows\nSmall datasets rarely benefit from autoencoders",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#encoding-categorical-variables",
+    "href": "guide.html#encoding-categorical-variables",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "5.2 Encoding Categorical Variables",
+    "text": "5.2 Encoding Categorical Variables\nimport pandas as pd\n\n# One-hot encode categorical columns\ndf = pd.get_dummies(df, columns=[\"species\", \"region\"])\nX  = df.values",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#handling-missing-values",
+    "href": "guide.html#handling-missing-values",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "5.3 Handling Missing Values",
+    "text": "5.3 Handling Missing Values\nfrom sklearn.impute import SimpleImputer\n\nimputer = SimpleImputer(strategy=\"mean\")\nX = imputer.fit_transform(X)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#scaling",
+    "href": "guide.html#scaling",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians",
+    "section": "5.4 Scaling",
+    "text": "5.4 Scaling\n\n\n\n\n\n\nAlways split your data before scaling. If you scale the full dataset first, information from the validation set leaks into training — a very common mistake.\n\n\n\nfrom sklearn.preprocessing import MinMaxScaler\nfrom sklearn.model_selection import train_test_split\n\nX_train, X_val = train_test_split(X, test_size=0.2, random_state=42)\n\nscaler  = MinMaxScaler()\nX_train = scaler.fit_transform(X_train)\nX_val   = scaler.transform(X_val)     # apply only — do NOT refit on validation",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Practical Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#pytorch",
+    "href": "guide.html#pytorch",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Guide for Statisticians",
+    "section": "6.1 PyTorch",
+    "text": "6.1 PyTorch\nimport torch, torch.nn as nn\nfrom torch.utils.data import DataLoader, TensorDataset\n\nclass Autoencoder(nn.Module):\n    def __init__(self, input_dim, k):\n        super().__init__()\n        self.encoder = nn.Sequential(nn.Linear(input_dim, 32), nn.ReLU(), nn.Linear(32, k))\n        self.decoder = nn.Sequential(nn.Linear(k, 32), nn.ReLU(), nn.Linear(32, input_dim), nn.Sigmoid())\n    def forward(self, x): return self.decoder(self.encoder(x))\n    def encode(self, x):  return self.encoder(x)\n\nX_tr  = torch.tensor(X_train, dtype=torch.float32)\nX_vl  = torch.tensor(X_val,   dtype=torch.float32)\nmodel = Autoencoder(input_dim=X_train.shape[1], k=8)\noptimizer = torch.optim.Adam(model.parameters(), lr=1e-3)\nloss_fn   = nn.MSELoss()\ntrain_losses, val_losses = [], []\n\nfor epoch in range(100):\n    model.train()\n    for (batch,) in DataLoader(TensorDataset(X_tr), batch_size=64, shuffle=True):\n        optimizer.zero_grad(); loss = loss_fn(model(batch), batch)\n        loss.backward(); optimizer.step()\n    model.eval()\n    with torch.no_grad():\n        train_losses.append(loss_fn(model(X_tr), X_tr).item())\n        val_losses.append(loss_fn(model(X_vl), X_vl).item())",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#keras",
+    "href": "guide.html#keras",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Guide for Statisticians",
+    "section": "6.2 Keras",
+    "text": "6.2 Keras\nfrom tensorflow import keras\nfrom tensorflow.keras import layers\n\ndef build(input_dim, k):\n    inp = keras.Input(shape=(input_dim,))\n    x   = layers.Dense(32, activation=\"relu\")(inp)\n    z   = layers.Dense(k, name=\"bottleneck\")(x)\n    x   = layers.Dense(32, activation=\"relu\")(z)\n    out = layers.Dense(input_dim, activation=\"sigmoid\")(x)\n    return keras.Model(inp, out), keras.Model(inp, z)\n\nautoencoder, encoder = build(X_train.shape[1], k=8)\nautoencoder.compile(optimizer=\"adam\", loss=\"mse\")\nautoencoder.fit(X_train, X_train, epochs=100, batch_size=64,\n                validation_data=(X_val, X_val))",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "2  References",
+    "section": "",
+    "text": "Doersch, Carl. 2021. “Tutorial on Variational\nAutoencoders.” https://arxiv.org/abs/1606.05908.\n\n\nGamage, Jayani P., Dianne Cook, Paul Harrison, Michael Lydeamore, and\nThiyanga S. Talagala. 2025. “Choosing Better NLDR\nLayouts by Evaluating the Model in the High-Dimensional Data\nSpace.” arXiv Preprint arXiv:2506.22051. https://arxiv.org/abs/2506.22051.\n\n\nGoodfellow, Ian, Yoshua Bengio, and Aaron Courville. 2016. Deep\nLearning. MIT Press. https://www.deeplearningbook.org.\n\n\nHinton, Geoffrey E., and Ruslan R. Salakhutdinov. 2006. “Reducing\nthe Dimensionality of Data with Neural Networks.”\nScience 313 (5786): 504–7. https://doi.org/10.1126/science.1127647.\n\n\nLaa, Ursula, Dianne Cook, and Stuart Lee. 2022. “Burning Sage:\nReversing the Curse of Dimensionality in the Visualization of\nHigh-Dimensional Data.” Journal of Computational and\nGraphical Statistics 31 (1): 40–49. https://doi.org/10.1080/10618600.2021.1963264.\n\n\nMaaten, Laurens van der, and Geoffrey Hinton. 2008. “Visualizing\nData Using t-SNE.” Journal of\nMachine Learning Research 9: 2579–2605. https://jmlr.org/papers/v9/vandermaaten08a.html.\n\n\nMcInnes, Leland, John Healy, Nicholas Saul, and Lukas Grossberger. 2018.\n“UMAP: Uniform Manifold Approximation and\nProjection.” Journal of Open Source Software 3 (29):\n861. https://doi.org/10.21105/joss.00861.\n\n\nMurphy, Kevin P. 2022. Probabilistic Machine Learning: An\nIntroduction. MIT Press. https://probml.github.io/pml-book/book1.html.\n\n\nNalisnick, Eric, Padhraic Smyth, and Dustin Tran. 2023. “A Brief\nTour of Deep Learning from a Statistical Perspective.” Annual\nReview of Statistics and Its Application 10: 219–46. https://doi.org/10.1146/annurev-statistics-032921-013738.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>References</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#create-an-environment",
+    "href": "guide.html#create-an-environment",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Guide for Statisticians",
+    "section": "4.1 Create an Environment",
+    "text": "4.1 Create an Environment\nconda create -n ae-env python=3.10\nconda activate ae-env\n\n\n\n\n\n\nImportant\n\n\n\nEvery time you open a new terminal, re-run the activate command before working.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#install-packages",
+    "href": "guide.html#install-packages",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Guide for Statisticians",
+    "section": "4.2 Install Packages",
+    "text": "4.2 Install Packages\nPyTorch (CPU — works on any machine):\npip install torch==2.2.0 --index-url https://download.pytorch.org/whl/cpu\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3\nKeras / TensorFlow (Windows or Linux):\npip install tensorflow==2.15.0\npip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3\n\n\n\n\n\n\nWarning\n\n\n\nMac with M1/M2/M3? Use tensorflow-macos==2.15.0 and tensorflow-metal instead.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Guide for Statisticians</span>"
+    ]
+  },
+  {
+    "objectID": "guide.html#save-and-share-your-versions",
+    "href": "guide.html#save-and-share-your-versions",
+    "title": "1  Autoencoders for Dimensionality Reduction: A Guide for Statisticians",
+    "section": "4.3 Save and Share Your Versions",
+    "text": "4.3 Save and Share Your Versions\npip freeze &gt; requirements.txt\nAnyone reproducing your work runs pip install -r requirements.txt to get the exact same setup.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Autoencoders for Dimensionality Reduction: A Guide for Statisticians</span>"
     ]
   }
 ]
