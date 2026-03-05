@@ -5,23 +5,48 @@ date: "2-26-2026"
 format:
   html:
     toc: true
-    theme: cosmo
+    numbered sections: false
 bibliography: references.bib
 suppress-bibliography: true
 ---
 
+# Introduction
+
+High-dimensional data (data with many columns) is common in fields like biology, medicine, and engineering. When data has too many columns, models become slow, visualization becomes impossible, and noise drowns out meaningful patterns. An autoencoder is a neural network that compresses your data automatically, keeping the important structure and discarding the rest. This makes autoencoders useful for visualization, noise reduction, and finding hidden patterns that simpler methods like PCA miss.
+
+This guide walks you through building and using an autoencoder from start to finish using a real dataset you can run yourself.
+
+------------------------------------------------------------------------
+
+# Prerequisites
+
+## Knowledge
+
+-   **PCA** — autoencoders are a nonlinear extension of PCA, familiarity with PCA is essential to continue
+-   **Basic Python** — reading and running scripts is sufficent, no deep learning experience needed
+
+## Software
+
+Choose one deep learning library, you do not need both:
+
+-   **PyTorch** — more flexible, popular in research
+-   **Keras** — simpler syntax, faster to get started
+
+You will also need **Python 3.10** and **conda** (Miniconda from [docs.conda.io](https://docs.conda.io/en/latest/miniconda.html)).
+
+------------------------------------------------------------------------
+
 # What Is an Autoencoder?
 
-You already know PCA: compress many columns into fewer that still capture the important patterns. An autoencoder does the same thing using a neural network — so it can find curved, nonlinear patterns that PCA cannot [@nalisnick2023].
+An autoencoder is a neural network trained to compress data and then reconstruct it. The network has three parts:
 
-The network has three parts:
+-   **Encoder** — compresses your data into fewer numbers
+-   **Bottleneck** — the compressed version (this is what you keep)
+-   **Decoder** — reconstructs the original data during training only
 
-- **Encoder** — compresses your data into fewer numbers
-- **Bottleneck** — the compressed version (this is what you keep)
-- **Decoder** — reconstructs the original data during training only
 ```{python}
 #| label: fig-arch
-#| fig-cap: "The three parts of an autoencoder."
+#| fig-cap: "The three parts of an autoencoder. Data is compressed at the bottleneck and then reconstructed. After training, only the encoder and bottleneck output are used."
 #| echo: false
 import matplotlib.pyplot as plt
 
@@ -34,76 +59,96 @@ for x1, x2 in [(1.2,2.8),(3.2,4.8),(5.2,6.8),(7.2,8.8)]:
 ax.axis("off"); ax.set_ylim(-0.6,0.4); plt.show()
 ```
 
-The network trains by trying to reconstruct its own input. Because everything must pass through the narrow bottleneck, it is forced to learn a compact summary of the data.
+The network trains by trying to reconstruct its own input. Because everything must pass through the narrow bottleneck, it is forced to learn a compact summary of the data. Under specific conditions an autoencoder is mathematically equivalent to PCA [@baldi1989] — making it a natural nonlinear extension of a tool you already know.
 
----
+## Should You Use an Autoencoder?
 
-# Should You Use an Autoencoder?
+**Use PCA if:** your dataset is small, you need interpretable components, or you want something fast with no training required.
 
-**Use PCA if:** your dataset is small, you need interpretable components, or you want something fast with no training.
+**Use an autoencoder if:** PCA reconstructions look poor, your data has complex structure (images, sensor readings, expressions), or you have at least a few thousand rows [@hinton2006].
 
-**Use an autoencoder if:** PCA reconstructions look poor, your data is complex (images, sensor readings), or you have at least a few thousand rows.
-
-**Use t-SNE or UMAP [@mcinnes2018] if:** your only goal is a 2D or 3D visualization.
-
-::: {.callout-tip}
-When in doubt, try PCA first. If it works, use it.
+::: callout-tip
+When in doubt, try PCA first. If it works well enough, use it. Autoencoders require more setup and tuning.
 :::
 
-| | PCA | t-SNE / UMAP | Autoencoder |
-|---|---|---|---|
-| Finds nonlinear patterns | No | Yes | Yes |
-| Output usable in a model | Yes | No | Yes |
-| Needs training | No | No | Yes |
-| Components have meaning | Yes | No | No |
+|                          | PCA    | Autoencoder |
+|--------------------------|--------|-------------|
+| Finds nonlinear patterns | No     | Yes         |
+| Output usable in a model | Yes    | Yes         |
+| Needs training           | No     | Yes         |
+| Components have meaning  | Yes    | No          |
+| Works on images / audio  | Poorly | Yes         |
 
-: Comparison of dimensionality reduction methods {#tbl-comparison}
+: Comparison of PCA and autoencoders {#tbl-comparison}
 
----
+------------------------------------------------------------------------
+
+# The Dataset
+
+This guide uses the **penguins** dataset, available in the `palmerpenguins` Python package. It contains physical measurements of 344 penguins across three species. It is small enough to run quickly on any machine and structured enough to show meaningful compression.
+
+``` python
+from palmerpenguins import load_penguins
+
+df = load_penguins().dropna()
+
+X = df[["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"]].values
+species = df["species"].values   # for coloring plots later
+
+print(f"Data shape: {X.shape}")   # (333, 4)
+```
+
+Install the package with:
+
+``` bash
+pip install palmerpenguins
+```
+
+The four columns are bill length, bill depth, flipper length, and body mass, these are our input features. We will compress these four dimensions down to two, then compare the result to PCA.
+
+------------------------------------------------------------------------
 
 # Setup
 
 ## Create an Environment
-```bash
+
+``` bash
 conda create -n ae-env python=3.10
 conda activate ae-env
 ```
 
-::: {.callout-important}
-Every time you open a new terminal, re-run the activate command before working.
+::: callout-important
+Every time you open a new terminal, rerun the activate command before working.
 :::
 
 ## Install Packages
 
 **PyTorch (CPU — works on any machine):**
-```bash
+
+``` bash
 pip install torch==2.2.0 --index-url https://download.pytorch.org/whl/cpu
-pip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3
+pip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3 palmerpenguins
 ```
 
 **Keras / TensorFlow (Windows or Linux):**
-```bash
+
+``` bash
 pip install tensorflow==2.15.0
-pip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3
+pip install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3 palmerpenguins
 ```
 
-::: {.callout-warning}
-**Mac with M1/M2/M3?** Use `tensorflow-macos==2.15.0` and `tensorflow-metal` instead.
+::: callout-warning
+**Mac with M1/M2/M3?** Use `tensorflow-macos==2.15.0` and `tensorflow-metal` instead of `tensorflow`.
 :::
 
-## Save and Share Your Versions
-```bash
-pip freeze > requirements.txt
-```
-
-Anyone reproducing your work runs `pip install -r requirements.txt` to get the exact same setup.
 
 ## Set Random Seeds {#sec-seeds}
 
-Put this at the top of every script:
+Put this at the top of every script so results are reproducible:
 
 **PyTorch:**
-```python
+
+``` python
 import random, numpy as np, torch
 random.seed(42); np.random.seed(42); torch.manual_seed(42)
 torch.backends.cudnn.deterministic = True
@@ -111,39 +156,45 @@ torch.backends.cudnn.benchmark = False
 ```
 
 **Keras:**
-```python
+
+``` python
 import os, random, numpy as np, tensorflow as tf
 os.environ['PYTHONHASHSEED'] = '42'
 random.seed(42); np.random.seed(42); tf.random.set_seed(42)
 ```
 
----
+------------------------------------------------------------------------
 
 # Prepare Your Data
 
-- **All numeric** — encode categorical columns first
-- **No missing values** — impute before training
-- **Scaled to [0, 1]** — neural networks are sensitive to scale
+-   **All numeric** — our penguin columns are already numeric
+-   **No missing values** — removed above with `.dropna()`
+-   **Scaled to \[0, 1\]** — neural networks are sensitive to scale
 
-::: {.callout-important}
+::: callout-important
 Always split **before** scaling. Scaling first leaks validation information into training.
 :::
-```python
+
+``` python
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
-X_train, X_val = train_test_split(X, test_size=0.2, random_state=42)
+X_train, X_val, species_train, species_val = train_test_split(
+    X, species, test_size=0.2, random_state=42
+)
+
 scaler  = MinMaxScaler()
 X_train = scaler.fit_transform(X_train)
 X_val   = scaler.transform(X_val)
 ```
 
----
+------------------------------------------------------------------------
 
 # Build and Train
 
 ## PyTorch
-```python
+
+``` python
 import torch, torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
@@ -157,14 +208,14 @@ class Autoencoder(nn.Module):
 
 X_tr  = torch.tensor(X_train, dtype=torch.float32)
 X_vl  = torch.tensor(X_val,   dtype=torch.float32)
-model = Autoencoder(input_dim=X_train.shape[1], k=8)
+model = Autoencoder(input_dim=4, k=2)
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 loss_fn   = nn.MSELoss()
 train_losses, val_losses = [], []
 
-for epoch in range(100):
+for epoch in range(200):
     model.train()
-    for (batch,) in DataLoader(TensorDataset(X_tr), batch_size=64, shuffle=True):
+    for (batch,) in DataLoader(TensorDataset(X_tr), batch_size=32, shuffle=True):
         optimizer.zero_grad(); loss = loss_fn(model(batch), batch)
         loss.backward(); optimizer.step()
     model.eval()
@@ -174,7 +225,8 @@ for epoch in range(100):
 ```
 
 ## Keras
-```python
+
+``` python
 from tensorflow import keras
 from tensorflow.keras import layers
 
@@ -186,26 +238,28 @@ def build(input_dim, k):
     out = layers.Dense(input_dim, activation="sigmoid")(x)
     return keras.Model(inp, out), keras.Model(inp, z)
 
-autoencoder, encoder = build(X_train.shape[1], k=8)
+autoencoder, encoder = build(input_dim=4, k=2)
 autoencoder.compile(optimizer="adam", loss="mse")
-autoencoder.fit(X_train, X_train, epochs=100, batch_size=64,
+autoencoder.fit(X_train, X_train, epochs=200, batch_size=32,
                 validation_data=(X_val, X_val))
 ```
 
----
+------------------------------------------------------------------------
 
 # Check Your Training Curves
 
 Always plot losses after training — this is your main diagnostic.
-```python
+
+``` python
 import matplotlib.pyplot as plt
 plt.plot(train_losses, label="Train")
 plt.plot(val_losses,   label="Validation")
 plt.xlabel("Epoch"); plt.ylabel("Loss"); plt.legend(); plt.show()
 ```
+
 ```{python}
 #| label: fig-curves
-#| fig-cap: "Good training (left), overfitting (middle), not learning (right)."
+#| fig-cap: "Good training (left), overfitting (middle), not learning (right). You want the left pattern."
 #| echo: false
 import matplotlib.pyplot as plt
 import numpy as np
@@ -219,85 +273,143 @@ for ax in axes: ax.legend(fontsize=8); ax.set_xlabel("Epoch"); ax.set_ylabel("Lo
 plt.tight_layout(); plt.show()
 ```
 
----
+------------------------------------------------------------------------
 
-# Extract and Use the Compressed Data
+# Extract and Compare to PCA
 
-After training, discard the decoder and extract the bottleneck output. Use it exactly like PCA scores — for clustering, prediction, or plotting.
+After training, extract the bottleneck output and compare it to PCA on the same data.
 
 **PyTorch:**
-```python
+
+``` python
 model.eval()
 with torch.no_grad():
-    Z_train = model.encode(X_tr).numpy()
+    Z_ae = model.encode(X_tr).numpy()
 ```
 
 **Keras:**
-```python
-Z_train = encoder.predict(X_train)
+
+``` python
+Z_ae = encoder.predict(X_train)
 ```
+
+Now run PCA for comparison:
+
+``` python
+from sklearn.decomposition import PCA
+Z_pca = PCA(n_components=2).fit_transform(X_train)
+```
+
+Plot both side by side, colored by species:
+
+``` python
+import matplotlib.pyplot as plt
+
+colors = {"Adelie": "#E41A1C", "Chinstrap": "#377EB8", "Gentoo": "#4DAF4A"}
+c = [colors[s] for s in species_train]
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+axes[0].scatter(Z_pca[:,0], Z_pca[:,1], c=c, alpha=0.7, s=30)
+axes[0].set_title("PCA"); axes[0].set_xlabel("Component 1"); axes[0].set_ylabel("Component 2")
+axes[1].scatter(Z_ae[:,0],  Z_ae[:,1],  c=c, alpha=0.7, s=30)
+axes[1].set_title("Autoencoder"); axes[1].set_xlabel("Dimension 1"); axes[1].set_ylabel("Dimension 2")
+for sp, col in colors.items():
+    axes[1].scatter([], [], color=col, label=sp)
+axes[1].legend()
+plt.tight_layout(); plt.show()
+```
+
 ```{python}
 #| label: fig-latent
-#| fig-cap: "Color the compressed representation by a known group to check whether meaningful structure has been preserved."
+#| fig-cap: "Illustrative comparison of PCA (left) vs autoencoder (right) on the penguins dataset, colored by species. Both methods separate the three species, but the autoencoder may find a different arrangement since it learns nonlinear structure."
 #| echo: false
 import matplotlib.pyplot as plt
 import numpy as np
 
 rng = np.random.default_rng(5)
-n, centers = 80, [(-2,0),(0,2),(2,0),(-1,-1.5),(1,-1.5)]
-colors = ["#E41A1C","#377EB8","#4DAF4A","#984EA3","#FF7F00"]
-fig, ax = plt.subplots(figsize=(6, 4))
-for i, (cx, cy) in enumerate(centers):
-    ax.scatter(rng.normal(cx,.38,n), rng.normal(cy,.38,n), color=colors[i], alpha=0.7, s=22, label=f"Group {i+1}")
-ax.set_xlabel("Bottleneck dimension 1"); ax.set_ylabel("Bottleneck dimension 2")
-ax.set_title("Autoencoder latent space colored by group")
-ax.legend(fontsize=9); ax.spines[["top","right"]].set_visible(False)
+colors = ["#E41A1C", "#377EB8", "#4DAF4A"]
+labels = ["Adelie", "Chinstrap", "Gentoo"]
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+for i, (cx, cy) in enumerate([(-1.5,0.5),(0.5,1.0),(1.5,-0.5)]):
+    n = [150, 68, 119][i]
+    axes[0].scatter(rng.normal(cx,0.5,n), rng.normal(cy,0.4,n), color=colors[i], alpha=0.7, s=20, label=labels[i])
+axes[0].set_title("PCA"); axes[0].set_xlabel("Component 1"); axes[0].set_ylabel("Component 2"); axes[0].legend(fontsize=8)
+
+for i, (cx, cy) in enumerate([(-2,0),(0,1.8),(2,0)]):
+    n = [150, 68, 119][i]
+    axes[1].scatter(rng.normal(cx,0.38,n), rng.normal(cy,0.38,n), color=colors[i], alpha=0.7, s=20, label=labels[i])
+axes[1].set_title("Autoencoder"); axes[1].set_xlabel("Dimension 1"); axes[1].set_ylabel("Dimension 2"); axes[1].legend(fontsize=8)
+
 plt.tight_layout(); plt.show()
 ```
 
-::: {.callout-note}
-Unlike PCA, bottleneck dimensions have no natural ordering or meaning. Judge the result by whether it helps your downstream task. For tools to verify that a projection reflects true structure, see @gamage2025.
+::: callout-note
+Unlike PCA components, bottleneck dimensions have no natural ordering or interpretation. Judge the result by whether it helps your clustering, classification, or visualization.
 :::
 
----
+------------------------------------------------------------------------
 
 # Choosing the Bottleneck Size
 
-There is no scree plot for autoencoders. Instead, train a few models with different bottleneck sizes and look for the elbow where adding more dimensions stops helping.
-```python
+There is no scree plot for autoencoders. Train models with several bottleneck sizes and look for the elbow where adding more dimensions stops helping much.
+
+``` python
 results = {}
-for k in [2, 4, 8, 16, 32]:
-    model = Autoencoder(X_train.shape[1], k)
-    # ... train as above ...
+for k in [2, 4, 8, 16]:
+    model = Autoencoder(input_dim=4, k=k)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    for epoch in range(200):
+        for (batch,) in DataLoader(TensorDataset(X_tr), batch_size=32, shuffle=True):
+            optimizer.zero_grad(); loss = loss_fn(model(batch), batch)
+            loss.backward(); optimizer.step()
+    model.eval()
     with torch.no_grad():
         results[k] = loss_fn(model(X_vl), X_vl).item()
 
 plt.plot(list(results.keys()), list(results.values()), marker="o")
-plt.xlabel("Bottleneck size (k)"); plt.ylabel("Validation loss"); plt.show()
+plt.xlabel("Bottleneck size (k)"); plt.ylabel("Validation loss")
+plt.title("Choose k at the elbow"); plt.show()
 ```
 
----
+------------------------------------------------------------------------
 
 # Troubleshooting
 
 | Problem | Fix |
-|---|---|
-| Loss does not decrease | Check scaling; try `lr=1e-4` |
-| Validation loss much higher than training | Use early stopping; shrink the model |
+|------------------------------------|------------------------------------|
+| Loss does not decrease | Check scaling- try `lr=1e-4` |
+| Validation loss much higher than training | Use early stopping- shrink the model |
 | Poor reconstructions | Increase bottleneck size |
 | Different results every run | Set random seeds — see @sec-seeds |
 | Import errors | Re-run `conda activate ae-env` |
-| Works on your machine but not another | Share `requirements.txt` |
 
----
+------------------------------------------------------------------------
+
+# Additional Resources
+
+All of the following are cited in @nalisnick2023 and are appropriate for readers with a statistics background.
+
+-   @goodfellow2016 — the standard deep learning textbook; Chapters 1 and 14 cover autoencoders in depth
+-   @doersch2021 — a readable tutorial on variational autoencoders, a probabilistic extension of the standard autoencoder
+-   @nalisnick2023 — the source article for this guide; provides broader statistical context for all of deep learning
+
+------------------------------------------------------------------------
 
 # Summary
 
-Train an autoencoder to reconstruct its own input, then keep only the bottleneck output as your compressed feature matrix. Use it like PCA scores for clustering, prediction, or visualization.
+An autoencoder compresses your data by learning to reconstruct its own input through a narrow bottleneck. The bottleneck output is your compressed feature matrix, use it like PCA scores for clustering, prediction, or visualization.
 
-For statistical context see @nalisnick2023. For variational autoencoders see @doersch2021. Full references are on the [References](references.qmd) page.
+The steps are:
 
----
+1.  Confirm your data is numeric, complete, and scaled to \[0, 1\]
+2.  Set up a pinned environment and fix all random seeds
+3.  Build an encoder–bottleneck–decoder network
+4.  Train and check the loss curves
+5.  Extract the encoder output and compare to PCA
+6.  Search for the right bottleneck size using validation loss
+
+------------------------------------------------------------------------
 
 # References {.unnumbered}
 

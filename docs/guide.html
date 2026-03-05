@@ -199,26 +199,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-an-autoencoder" id="toc-what-is-an-autoencoder" class="nav-link active" data-scroll-target="#what-is-an-autoencoder"><span class="header-section-number">2</span> What Is an Autoencoder?</a></li>
-  <li><a href="#should-you-use-an-autoencoder" id="toc-should-you-use-an-autoencoder" class="nav-link" data-scroll-target="#should-you-use-an-autoencoder"><span class="header-section-number">3</span> Should You Use an Autoencoder?</a></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"><span class="header-section-number">4</span> Setup</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">2</span> Introduction</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">3</span> Prerequisites</a>
   <ul class="collapse">
-  <li><a href="#create-an-environment" id="toc-create-an-environment" class="nav-link" data-scroll-target="#create-an-environment"><span class="header-section-number">4.1</span> Create an Environment</a></li>
-  <li><a href="#install-packages" id="toc-install-packages" class="nav-link" data-scroll-target="#install-packages"><span class="header-section-number">4.2</span> Install Packages</a></li>
-  <li><a href="#save-and-share-your-versions" id="toc-save-and-share-your-versions" class="nav-link" data-scroll-target="#save-and-share-your-versions"><span class="header-section-number">4.3</span> Save and Share Your Versions</a></li>
-  <li><a href="#sec-seeds" id="toc-sec-seeds" class="nav-link" data-scroll-target="#sec-seeds"><span class="header-section-number">4.4</span> Set Random Seeds</a></li>
+  <li><a href="#knowledge" id="toc-knowledge" class="nav-link" data-scroll-target="#knowledge"><span class="header-section-number">3.1</span> Knowledge</a></li>
+  <li><a href="#software" id="toc-software" class="nav-link" data-scroll-target="#software"><span class="header-section-number">3.2</span> Software</a></li>
   </ul></li>
-  <li><a href="#prepare-your-data" id="toc-prepare-your-data" class="nav-link" data-scroll-target="#prepare-your-data"><span class="header-section-number">5</span> Prepare Your Data</a></li>
-  <li><a href="#build-and-train" id="toc-build-and-train" class="nav-link" data-scroll-target="#build-and-train"><span class="header-section-number">6</span> Build and Train</a>
+  <li><a href="#what-is-an-autoencoder" id="toc-what-is-an-autoencoder" class="nav-link" data-scroll-target="#what-is-an-autoencoder"><span class="header-section-number">4</span> What Is an Autoencoder?</a>
   <ul class="collapse">
-  <li><a href="#pytorch" id="toc-pytorch" class="nav-link" data-scroll-target="#pytorch"><span class="header-section-number">6.1</span> PyTorch</a></li>
-  <li><a href="#keras" id="toc-keras" class="nav-link" data-scroll-target="#keras"><span class="header-section-number">6.2</span> Keras</a></li>
+  <li><a href="#should-you-use-an-autoencoder" id="toc-should-you-use-an-autoencoder" class="nav-link" data-scroll-target="#should-you-use-an-autoencoder"><span class="header-section-number">4.1</span> Should You Use an Autoencoder?</a></li>
   </ul></li>
-  <li><a href="#check-your-training-curves" id="toc-check-your-training-curves" class="nav-link" data-scroll-target="#check-your-training-curves"><span class="header-section-number">7</span> Check Your Training Curves</a></li>
-  <li><a href="#extract-and-use-the-compressed-data" id="toc-extract-and-use-the-compressed-data" class="nav-link" data-scroll-target="#extract-and-use-the-compressed-data"><span class="header-section-number">8</span> Extract and Use the Compressed Data</a></li>
-  <li><a href="#choosing-the-bottleneck-size" id="toc-choosing-the-bottleneck-size" class="nav-link" data-scroll-target="#choosing-the-bottleneck-size"><span class="header-section-number">9</span> Choosing the Bottleneck Size</a></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">10</span> Troubleshooting</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">11</span> Summary</a></li>
+  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link" data-scroll-target="#the-dataset"><span class="header-section-number">5</span> The Dataset</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"><span class="header-section-number">6</span> Setup</a>
+  <ul class="collapse">
+  <li><a href="#create-an-environment" id="toc-create-an-environment" class="nav-link" data-scroll-target="#create-an-environment"><span class="header-section-number">6.1</span> Create an Environment</a></li>
+  <li><a href="#install-packages" id="toc-install-packages" class="nav-link" data-scroll-target="#install-packages"><span class="header-section-number">6.2</span> Install Packages</a></li>
+  <li><a href="#sec-seeds" id="toc-sec-seeds" class="nav-link" data-scroll-target="#sec-seeds"><span class="header-section-number">6.3</span> Set Random Seeds</a></li>
+  </ul></li>
+  <li><a href="#prepare-your-data" id="toc-prepare-your-data" class="nav-link" data-scroll-target="#prepare-your-data"><span class="header-section-number">7</span> Prepare Your Data</a></li>
+  <li><a href="#build-and-train" id="toc-build-and-train" class="nav-link" data-scroll-target="#build-and-train"><span class="header-section-number">8</span> Build and Train</a>
+  <ul class="collapse">
+  <li><a href="#pytorch" id="toc-pytorch" class="nav-link" data-scroll-target="#pytorch"><span class="header-section-number">8.1</span> PyTorch</a></li>
+  <li><a href="#keras" id="toc-keras" class="nav-link" data-scroll-target="#keras"><span class="header-section-number">8.2</span> Keras</a></li>
+  </ul></li>
+  <li><a href="#check-your-training-curves" id="toc-check-your-training-curves" class="nav-link" data-scroll-target="#check-your-training-curves"><span class="header-section-number">9</span> Check Your Training Curves</a></li>
+  <li><a href="#extract-and-compare-to-pca" id="toc-extract-and-compare-to-pca" class="nav-link" data-scroll-target="#extract-and-compare-to-pca"><span class="header-section-number">10</span> Extract and Compare to PCA</a></li>
+  <li><a href="#choosing-the-bottleneck-size" id="toc-choosing-the-bottleneck-size" class="nav-link" data-scroll-target="#choosing-the-bottleneck-size"><span class="header-section-number">11</span> Choosing the Bottleneck Size</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">12</span> Troubleshooting</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">13</span> Additional Resources</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">14</span> Summary</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -257,10 +266,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="what-is-an-autoencoder" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> What Is an Autoencoder?</h1>
-<p>You already know PCA: compress many columns into fewer that still capture the important patterns. An autoencoder does the same thing using a neural network — so it can find curved, nonlinear patterns that PCA cannot <span class="citation" data-cites="nalisnick2023">(Nalisnick, Smyth, and Tran 2023)</span>.</p>
-<p>The network has three parts:</p>
+<section id="introduction" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Introduction</h1>
+<p>High-dimensional data (data with many columns) is common in fields like biology, medicine, and engineering. When data has too many columns, models become slow, visualization becomes impossible, and noise drowns out meaningful patterns. An autoencoder is a neural network that compresses your data automatically, keeping the important structure and discarding the rest. This makes autoencoders useful for visualization, noise reduction, and finding hidden patterns that simpler methods like PCA miss.</p>
+<p>This guide walks you through building and using an autoencoder from start to finish using a real dataset you can run yourself.</p>
+<hr>
+</section>
+<section id="prerequisites" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Prerequisites</h1>
+<section id="knowledge" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="knowledge"><span class="header-section-number">3.1</span> Knowledge</h2>
+<ul>
+<li><strong>PCA</strong> — autoencoders are a nonlinear extension of PCA, familiarity with PCA is essential to continue</li>
+<li><strong>Basic Python</strong> — reading and running scripts is sufficent, no deep learning experience needed</li>
+</ul>
+</section>
+<section id="software" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="software"><span class="header-section-number">3.2</span> Software</h2>
+<p>Choose one deep learning library, you do not need both:</p>
+<ul>
+<li><strong>PyTorch</strong> — more flexible, popular in research</li>
+<li><strong>Keras</strong> — simpler syntax, faster to get started</li>
+</ul>
+<p>You will also need <strong>Python 3.10</strong> and <strong>conda</strong> (Miniconda from <a href="https://docs.conda.io/en/latest/miniconda.html">docs.conda.io</a>).</p>
+<hr>
+</section>
+</section>
+<section id="what-is-an-autoencoder" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> What Is an Autoencoder?</h1>
+<p>An autoencoder is a neural network trained to compress data and then reconstruct it. The network has three parts:</p>
 <ul>
 <li><strong>Encoder</strong> — compresses your data into fewer numbers</li>
 <li><strong>Bottleneck</strong> — the compressed version (this is what you keep)</li>
@@ -274,20 +308,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <img src="guide_files/figure-html/fig-arch-output-1.png" width="614" height="167" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: The three parts of an autoencoder.
+Figure&nbsp;4.1: The three parts of an autoencoder. Data is compressed at the bottleneck and then reconstructed. After training, only the encoder and bottleneck output are used.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>The network trains by trying to reconstruct its own input. Because everything must pass through the narrow bottleneck, it is forced to learn a compact summary of the data.</p>
-<hr>
-</section>
-<section id="should-you-use-an-autoencoder" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Should You Use an Autoencoder?</h1>
-<p><strong>Use PCA if:</strong> your dataset is small, you need interpretable components, or you want something fast with no training.</p>
-<p><strong>Use an autoencoder if:</strong> PCA reconstructions look poor, your data is complex (images, sensor readings), or you have at least a few thousand rows.</p>
-<p><strong>Use t-SNE or UMAP <span class="citation" data-cites="mcinnes2018">(McInnes et al. 2018)</span> if:</strong> your only goal is a 2D or 3D visualization.</p>
+<p>The network trains by trying to reconstruct its own input. Because everything must pass through the narrow bottleneck, it is forced to learn a compact summary of the data. Under specific conditions an autoencoder is mathematically equivalent to PCA <span class="citation" data-cites="baldi1989">(Baldi and Hornik 1989)</span> — making it a natural nonlinear extension of a tool you already know.</p>
+<section id="should-you-use-an-autoencoder" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="should-you-use-an-autoencoder"><span class="header-section-number">4.1</span> Should You Use an Autoencoder?</h2>
+<p><strong>Use PCA if:</strong> your dataset is small, you need interpretable components, or you want something fast with no training required.</p>
+<p><strong>Use an autoencoder if:</strong> PCA reconstructions look poor, your data has complex structure (images, sensor readings, expressions), or you have at least a few thousand rows <span class="citation" data-cites="hinton2006">(Hinton and Salakhutdinov 2006)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -298,13 +329,13 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>When in doubt, try PCA first. If it works, use it.</p>
+<p>When in doubt, try PCA first. If it works well enough, use it. Autoencoders require more setup and tuning.</p>
 </div>
 </div>
 <div id="tbl-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.1: Comparison of dimensionality reduction methods
+Table&nbsp;4.1: Comparison of PCA and autoencoders
 </figcaption>
 <div aria-describedby="tbl-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -312,7 +343,6 @@ Table&nbsp;3.1: Comparison of dimensionality reduction methods
 <tr class="header">
 <th></th>
 <th>PCA</th>
-<th>t-SNE / UMAP</th>
 <th>Autoencoder</th>
 </tr>
 </thead>
@@ -321,17 +351,14 @@ Table&nbsp;3.1: Comparison of dimensionality reduction methods
 <td>Finds nonlinear patterns</td>
 <td>No</td>
 <td>Yes</td>
-<td>Yes</td>
 </tr>
 <tr class="even">
 <td>Output usable in a model</td>
 <td>Yes</td>
-<td>No</td>
 <td>Yes</td>
 </tr>
 <tr class="odd">
 <td>Needs training</td>
-<td>No</td>
 <td>No</td>
 <td>Yes</td>
 </tr>
@@ -339,7 +366,11 @@ Table&nbsp;3.1: Comparison of dimensionality reduction methods
 <td>Components have meaning</td>
 <td>Yes</td>
 <td>No</td>
-<td>No</td>
+</tr>
+<tr class="odd">
+<td>Works on images / audio</td>
+<td>Poorly</td>
+<td>Yes</td>
 </tr>
 </tbody>
 </table>
@@ -348,12 +379,29 @@ Table&nbsp;3.1: Comparison of dimensionality reduction methods
 </div>
 <hr>
 </section>
-<section id="setup" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Setup</h1>
-<section id="create-an-environment" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="create-an-environment"><span class="header-section-number">4.1</span> Create an Environment</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> ae-env python=3.10</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate ae-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="the-dataset" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> The Dataset</h1>
+<p>This guide uses the <strong>penguins</strong> dataset, available in the <code>palmerpenguins</code> Python package. It contains physical measurements of 344 penguins across three species. It is small enough to run quickly on any machine and structured enough to show meaningful compression.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> load_penguins().dropna()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">"bill_length_mm"</span>, <span class="st">"bill_depth_mm"</span>, <span class="st">"flipper_length_mm"</span>, <span class="st">"body_mass_g"</span>]].values</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>species <span class="op">=</span> df[<span class="st">"species"</span>].values   <span class="co"># for coloring plots later</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data shape: </span><span class="sc">{</span>X<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)   <span class="co"># (333, 4)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Install the package with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install palmerpenguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The four columns are bill length, bill depth, flipper length, and body mass, these are our input features. We will compress these four dimensions down to two, then compare the result to PCA.</p>
+<hr>
+</section>
+<section id="setup" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Setup</h1>
+<section id="create-an-environment" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="create-an-environment"><span class="header-section-number">6.1</span> Create an Environment</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> ae-env python=3.10</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate ae-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -364,18 +412,18 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Every time you open a new terminal, re-run the activate command before working.</p>
+<p>Every time you open a new terminal, rerun the activate command before working.</p>
 </div>
 </div>
 </section>
-<section id="install-packages" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="install-packages"><span class="header-section-number">4.2</span> Install Packages</h2>
+<section id="install-packages" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="install-packages"><span class="header-section-number">6.2</span> Install Packages</h2>
 <p><strong>PyTorch (CPU — works on any machine):</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install torch==2.2.0 <span class="at">--index-url</span> https://download.pytorch.org/whl/cpu</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install torch==2.2.0 <span class="at">--index-url</span> https://download.pytorch.org/whl/cpu</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3 palmerpenguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Keras / TensorFlow (Windows or Linux):</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install tensorflow==2.15.0</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install tensorflow==2.15.0</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy==1.26.4 pandas==2.2.1 scikit-learn==1.4.1 matplotlib==3.8.3 palmerpenguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -386,35 +434,30 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Mac with M1/M2/M3?</strong> Use <code>tensorflow-macos==2.15.0</code> and <code>tensorflow-metal</code> instead.</p>
+<p><strong>Mac with M1/M2/M3?</strong> Use <code>tensorflow-macos==2.15.0</code> and <code>tensorflow-metal</code> instead of <code>tensorflow</code>.</p>
 </div>
 </div>
 </section>
-<section id="save-and-share-your-versions" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="save-and-share-your-versions"><span class="header-section-number">4.3</span> Save and Share Your Versions</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> freeze <span class="op">&gt;</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Anyone reproducing your work runs <code>pip install -r requirements.txt</code> to get the exact same setup.</p>
-</section>
-<section id="sec-seeds" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="sec-seeds"><span class="header-section-number">4.4</span> Set Random Seeds</h2>
-<p>Put this at the top of every script:</p>
+<section id="sec-seeds" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="sec-seeds"><span class="header-section-number">6.3</span> Set Random Seeds</h2>
+<p>Put this at the top of every script so results are reproducible:</p>
 <p><strong>PyTorch:</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random, numpy <span class="im">as</span> np, torch</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>random.seed(<span class="dv">42</span>)<span class="op">;</span> np.random.seed(<span class="dv">42</span>)<span class="op">;</span> torch.manual_seed(<span class="dv">42</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>torch.backends.cudnn.deterministic <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>torch.backends.cudnn.benchmark <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random, numpy <span class="im">as</span> np, torch</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>random.seed(<span class="dv">42</span>)<span class="op">;</span> np.random.seed(<span class="dv">42</span>)<span class="op">;</span> torch.manual_seed(<span class="dv">42</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>torch.backends.cudnn.deterministic <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>torch.backends.cudnn.benchmark <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Keras:</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os, random, numpy <span class="im">as</span> np, tensorflow <span class="im">as</span> tf</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">'PYTHONHASHSEED'</span>] <span class="op">=</span> <span class="st">'42'</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>random.seed(<span class="dv">42</span>)<span class="op">;</span> np.random.seed(<span class="dv">42</span>)<span class="op">;</span> tf.random.set_seed(<span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os, random, numpy <span class="im">as</span> np, tensorflow <span class="im">as</span> tf</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">'PYTHONHASHSEED'</span>] <span class="op">=</span> <span class="st">'42'</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>random.seed(<span class="dv">42</span>)<span class="op">;</span> np.random.seed(<span class="dv">42</span>)<span class="op">;</span> tf.random.set_seed(<span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
-<section id="prepare-your-data" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Prepare Your Data</h1>
+<section id="prepare-your-data" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Prepare Your Data</h1>
 <ul>
-<li><strong>All numeric</strong> — encode categorical columns first</li>
-<li><strong>No missing values</strong> — impute before training</li>
+<li><strong>All numeric</strong> — our penguin columns are already numeric</li>
+<li><strong>No missing values</strong> — removed above with <code>.dropna()</code></li>
 <li><strong>Scaled to [0, 1]</strong> — neural networks are sensitive to scale</li>
 </ul>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -430,74 +473,77 @@ Important
 <p>Always split <strong>before</strong> scaling. Scaling first leaks validation information into training.</p>
 </div>
 </div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>X_train, X_val <span class="op">=</span> train_test_split(X, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>scaler  <span class="op">=</span> MinMaxScaler()</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> scaler.fit_transform(X_train)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>X_val   <span class="op">=</span> scaler.transform(X_val)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
-</section>
-<section id="build-and-train" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Build and Train</h1>
-<section id="pytorch" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="pytorch"><span class="header-section-number">6.1</span> PyTorch</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch, torch.nn <span class="im">as</span> nn</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader, TensorDataset</span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Autoencoder(nn.Module):</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_dim, k):</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.encoder <span class="op">=</span> nn.Sequential(nn.Linear(input_dim, <span class="dv">32</span>), nn.ReLU(), nn.Linear(<span class="dv">32</span>, k))</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.decoder <span class="op">=</span> nn.Sequential(nn.Linear(k, <span class="dv">32</span>), nn.ReLU(), nn.Linear(<span class="dv">32</span>, input_dim), nn.Sigmoid())</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x): <span class="cf">return</span> <span class="va">self</span>.decoder(<span class="va">self</span>.encoder(x))</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, x):  <span class="cf">return</span> <span class="va">self</span>.encoder(x)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>X_tr  <span class="op">=</span> torch.tensor(X_train, dtype<span class="op">=</span>torch.float32)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>X_vl  <span class="op">=</span> torch.tensor(X_val,   dtype<span class="op">=</span>torch.float32)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Autoencoder(input_dim<span class="op">=</span>X_train.shape[<span class="dv">1</span>], k<span class="op">=</span><span class="dv">8</span>)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>loss_fn   <span class="op">=</span> nn.MSELoss()</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>train_losses, val_losses <span class="op">=</span> [], []</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (batch,) <span class="kw">in</span> DataLoader(TensorDataset(X_tr), batch_size<span class="op">=</span><span class="dv">64</span>, shuffle<span class="op">=</span><span class="va">True</span>):</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()<span class="op">;</span> loss <span class="op">=</span> loss_fn(model(batch), batch)</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>        loss.backward()<span class="op">;</span> optimizer.step()</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>        train_losses.append(loss_fn(model(X_tr), X_tr).item())</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        val_losses.append(loss_fn(model(X_vl), X_vl).item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>X_train, X_val, species_train, species_val <span class="op">=</span> train_test_split(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    X, species, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>scaler  <span class="op">=</span> MinMaxScaler()</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> scaler.fit_transform(X_train)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>X_val   <span class="op">=</span> scaler.transform(X_val)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
 </section>
-<section id="keras" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="keras"><span class="header-section-number">6.2</span> Keras</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras <span class="im">import</span> layers</span>
+<section id="build-and-train" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Build and Train</h1>
+<section id="pytorch" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="pytorch"><span class="header-section-number">8.1</span> PyTorch</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch, torch.nn <span class="im">as</span> nn</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader, TensorDataset</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build(input_dim, k):</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    inp <span class="op">=</span> keras.Input(shape<span class="op">=</span>(input_dim,))</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    x   <span class="op">=</span> layers.Dense(<span class="dv">32</span>, activation<span class="op">=</span><span class="st">"relu"</span>)(inp)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    z   <span class="op">=</span> layers.Dense(k, name<span class="op">=</span><span class="st">"bottleneck"</span>)(x)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    x   <span class="op">=</span> layers.Dense(<span class="dv">32</span>, activation<span class="op">=</span><span class="st">"relu"</span>)(z)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> layers.Dense(input_dim, activation<span class="op">=</span><span class="st">"sigmoid"</span>)(x)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> keras.Model(inp, out), keras.Model(inp, z)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Autoencoder(nn.Module):</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_dim, k):</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.encoder <span class="op">=</span> nn.Sequential(nn.Linear(input_dim, <span class="dv">32</span>), nn.ReLU(), nn.Linear(<span class="dv">32</span>, k))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.decoder <span class="op">=</span> nn.Sequential(nn.Linear(k, <span class="dv">32</span>), nn.ReLU(), nn.Linear(<span class="dv">32</span>, input_dim), nn.Sigmoid())</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x): <span class="cf">return</span> <span class="va">self</span>.decoder(<span class="va">self</span>.encoder(x))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, x):  <span class="cf">return</span> <span class="va">self</span>.encoder(x)</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>autoencoder, encoder <span class="op">=</span> build(X_train.shape[<span class="dv">1</span>], k<span class="op">=</span><span class="dv">8</span>)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>autoencoder.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">"adam"</span>, loss<span class="op">=</span><span class="st">"mse"</span>)</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>autoencoder.fit(X_train, X_train, epochs<span class="op">=</span><span class="dv">100</span>, batch_size<span class="op">=</span><span class="dv">64</span>,</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                validation_data<span class="op">=</span>(X_val, X_val))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>X_tr  <span class="op">=</span> torch.tensor(X_train, dtype<span class="op">=</span>torch.float32)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>X_vl  <span class="op">=</span> torch.tensor(X_val,   dtype<span class="op">=</span>torch.float32)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Autoencoder(input_dim<span class="op">=</span><span class="dv">4</span>, k<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>loss_fn   <span class="op">=</span> nn.MSELoss()</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>train_losses, val_losses <span class="op">=</span> [], []</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">200</span>):</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (batch,) <span class="kw">in</span> DataLoader(TensorDataset(X_tr), batch_size<span class="op">=</span><span class="dv">32</span>, shuffle<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()<span class="op">;</span> loss <span class="op">=</span> loss_fn(model(batch), batch)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        loss.backward()<span class="op">;</span> optimizer.step()</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        train_losses.append(loss_fn(model(X_tr), X_tr).item())</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        val_losses.append(loss_fn(model(X_vl), X_vl).item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="keras" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="keras"><span class="header-section-number">8.2</span> Keras</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras <span class="im">import</span> layers</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build(input_dim, k):</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    inp <span class="op">=</span> keras.Input(shape<span class="op">=</span>(input_dim,))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    x   <span class="op">=</span> layers.Dense(<span class="dv">32</span>, activation<span class="op">=</span><span class="st">"relu"</span>)(inp)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    z   <span class="op">=</span> layers.Dense(k, name<span class="op">=</span><span class="st">"bottleneck"</span>)(x)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    x   <span class="op">=</span> layers.Dense(<span class="dv">32</span>, activation<span class="op">=</span><span class="st">"relu"</span>)(z)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> layers.Dense(input_dim, activation<span class="op">=</span><span class="st">"sigmoid"</span>)(x)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> keras.Model(inp, out), keras.Model(inp, z)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>autoencoder, encoder <span class="op">=</span> build(input_dim<span class="op">=</span><span class="dv">4</span>, k<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>autoencoder.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">"adam"</span>, loss<span class="op">=</span><span class="st">"mse"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>autoencoder.fit(X_train, X_train, epochs<span class="op">=</span><span class="dv">200</span>, batch_size<span class="op">=</span><span class="dv">32</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                validation_data<span class="op">=</span>(X_val, X_val))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
-<section id="check-your-training-curves" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Check Your Training Curves</h1>
+<section id="check-your-training-curves" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Check Your Training Curves</h1>
 <p>Always plot losses after training — this is your main diagnostic.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>plt.plot(train_losses, label<span class="op">=</span><span class="st">"Train"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.plot(val_losses,   label<span class="op">=</span><span class="st">"Validation"</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Epoch"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"Loss"</span>)<span class="op">;</span> plt.legend()<span class="op">;</span> plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plt.plot(train_losses, label<span class="op">=</span><span class="st">"Train"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.plot(val_losses,   label<span class="op">=</span><span class="st">"Validation"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Epoch"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"Loss"</span>)<span class="op">;</span> plt.legend()<span class="op">;</span> plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="cell-fig-curves" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-curves" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -506,7 +552,7 @@ Important
 <img src="guide_files/figure-html/fig-curves-output-1.png" width="950" height="278" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-curves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.1: Good training (left), overfitting (middle), not learning (right).
+Figure&nbsp;9.1: Good training (left), overfitting (middle), not learning (right). You want the left pattern.
 </figcaption>
 </figure>
 </div>
@@ -514,24 +560,42 @@ Figure&nbsp;7.1: Good training (left), overfitting (middle), not learning (right
 </div>
 <hr>
 </section>
-<section id="extract-and-use-the-compressed-data" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Extract and Use the Compressed Data</h1>
-<p>After training, discard the decoder and extract the bottleneck output. Use it exactly like PCA scores — for clustering, prediction, or plotting.</p>
+<section id="extract-and-compare-to-pca" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Extract and Compare to PCA</h1>
+<p>After training, extract the bottleneck output and compare it to PCA on the same data.</p>
 <p><strong>PyTorch:</strong></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    Z_train <span class="op">=</span> model.encode(X_tr).numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    Z_ae <span class="op">=</span> model.encode(X_tr).numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Keras:</strong></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Z_train <span class="op">=</span> encoder.predict(X_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Z_ae <span class="op">=</span> encoder.predict(X_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now run PCA for comparison:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Z_pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>).fit_transform(X_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Plot both side by side, colored by species:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> {<span class="st">"Adelie"</span>: <span class="st">"#E41A1C"</span>, <span class="st">"Chinstrap"</span>: <span class="st">"#377EB8"</span>, <span class="st">"Gentoo"</span>: <span class="st">"#4DAF4A"</span>}</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> [colors[s] <span class="cf">for</span> s <span class="kw">in</span> species_train]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].scatter(Z_pca[:,<span class="dv">0</span>], Z_pca[:,<span class="dv">1</span>], c<span class="op">=</span>c, alpha<span class="op">=</span><span class="fl">0.7</span>, s<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"PCA"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_xlabel(<span class="st">"Component 1"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="st">"Component 2"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].scatter(Z_ae[:,<span class="dv">0</span>],  Z_ae[:,<span class="dv">1</span>],  c<span class="op">=</span>c, alpha<span class="op">=</span><span class="fl">0.7</span>, s<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Autoencoder"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_xlabel(<span class="st">"Dimension 1"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">"Dimension 2"</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sp, col <span class="kw">in</span> colors.items():</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>].scatter([], [], color<span class="op">=</span>col, label<span class="op">=</span>sp)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend()</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="cell-fig-latent" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div id="fig-latent" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-latent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="guide_files/figure-html/fig-latent-output-1.png" width="566" height="374" class="figure-img">
+<img src="guide_files/figure-html/fig-latent-output-1.png" width="950" height="374" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-latent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8.1: Color the compressed representation by a known group to check whether meaningful structure has been preserved.
+Figure&nbsp;10.1: Illustrative comparison of PCA (left) vs autoencoder (right) on the penguins dataset, colored by species. Both methods separate the three species, but the autoencoder may find a different arrangement since it learns nonlinear structure.
 </figcaption>
 </figure>
 </div>
@@ -547,27 +611,33 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Unlike PCA, bottleneck dimensions have no natural ordering or meaning. Judge the result by whether it helps your downstream task. For tools to verify that a projection reflects true structure, see <span class="citation" data-cites="gamage2025">Gamage et al. (2025)</span>.</p>
+<p>Unlike PCA components, bottleneck dimensions have no natural ordering or interpretation. Judge the result by whether it helps your clustering, classification, or visualization.</p>
 </div>
 </div>
 <hr>
 </section>
-<section id="choosing-the-bottleneck-size" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Choosing the Bottleneck Size</h1>
-<p>There is no scree plot for autoencoders. Instead, train a few models with different bottleneck sizes and look for the elbow where adding more dimensions stops helping.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>]:</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> Autoencoder(X_train.shape[<span class="dv">1</span>], k)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... train as above ...</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        results[k] <span class="op">=</span> loss_fn(model(X_vl), X_vl).item()</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">list</span>(results.keys()), <span class="bu">list</span>(results.values()), marker<span class="op">=</span><span class="st">"o"</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Bottleneck size (k)"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"Validation loss"</span>)<span class="op">;</span> plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="choosing-the-bottleneck-size" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Choosing the Bottleneck Size</h1>
+<p>There is no scree plot for autoencoders. Train models with several bottleneck sizes and look for the elbow where adding more dimensions stops helping much.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>]:</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> Autoencoder(input_dim<span class="op">=</span><span class="dv">4</span>, k<span class="op">=</span>k)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">200</span>):</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (batch,) <span class="kw">in</span> DataLoader(TensorDataset(X_tr), batch_size<span class="op">=</span><span class="dv">32</span>, shuffle<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            optimizer.zero_grad()<span class="op">;</span> loss <span class="op">=</span> loss_fn(model(batch), batch)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>            loss.backward()<span class="op">;</span> optimizer.step()</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        results[k] <span class="op">=</span> loss_fn(model(X_vl), X_vl).item()</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">list</span>(results.keys()), <span class="bu">list</span>(results.values()), marker<span class="op">=</span><span class="st">"o"</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Bottleneck size (k)"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"Validation loss"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Choose k at the elbow"</span>)<span class="op">;</span> plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
-<section id="troubleshooting" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> Troubleshooting</h1>
+<section id="troubleshooting" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Troubleshooting</h1>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -582,11 +652,11 @@ Note
 <tbody>
 <tr class="odd">
 <td>Loss does not decrease</td>
-<td>Check scaling; try <code>lr=1e-4</code></td>
+<td>Check scaling- try <code>lr=1e-4</code></td>
 </tr>
 <tr class="even">
 <td>Validation loss much higher than training</td>
-<td>Use early stopping; shrink the model</td>
+<td>Use early stopping- shrink the model</td>
 </tr>
 <tr class="odd">
 <td>Poor reconstructions</td>
@@ -594,24 +664,38 @@ Note
 </tr>
 <tr class="even">
 <td>Different results every run</td>
-<td>Set random seeds — see <a href="#sec-seeds" class="quarto-xref"><span>Section 4.4</span></a></td>
+<td>Set random seeds — see <a href="#sec-seeds" class="quarto-xref"><span>Section 6.3</span></a></td>
 </tr>
 <tr class="odd">
 <td>Import errors</td>
 <td>Re-run <code>conda activate ae-env</code></td>
 </tr>
-<tr class="even">
-<td>Works on your machine but not another</td>
-<td>Share <code>requirements.txt</code></td>
-</tr>
 </tbody>
 </table>
 <hr>
 </section>
-<section id="summary" class="level1" data-number="11">
-<h1 data-number="11"><span class="header-section-number">11</span> Summary</h1>
-<p>Train an autoencoder to reconstruct its own input, then keep only the bottleneck output as your compressed feature matrix. Use it like PCA scores for clustering, prediction, or visualization.</p>
-<p>For statistical context see <span class="citation" data-cites="nalisnick2023">Nalisnick, Smyth, and Tran (2023)</span>. For variational autoencoders see <span class="citation" data-cites="doersch2021">Doersch (2021)</span>. Full references are on the <a href="./references.html">References</a> page.</p>
+<section id="additional-resources" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Additional Resources</h1>
+<p>All of the following are cited in <span class="citation" data-cites="nalisnick2023">Nalisnick, Smyth, and Tran (2023)</span> and are appropriate for readers with a statistics background.</p>
+<ul>
+<li><span class="citation" data-cites="goodfellow2016">Goodfellow, Bengio, and Courville (2016)</span> — the standard deep learning textbook; Chapters 1 and 14 cover autoencoders in depth</li>
+<li><span class="citation" data-cites="doersch2021">Doersch (2021)</span> — a readable tutorial on variational autoencoders, a probabilistic extension of the standard autoencoder</li>
+<li><span class="citation" data-cites="nalisnick2023">Nalisnick, Smyth, and Tran (2023)</span> — the source article for this guide; provides broader statistical context for all of deep learning</li>
+</ul>
+<hr>
+</section>
+<section id="summary" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> Summary</h1>
+<p>An autoencoder compresses your data by learning to reconstruct its own input through a narrow bottleneck. The bottleneck output is your compressed feature matrix, use it like PCA scores for clustering, prediction, or visualization.</p>
+<p>The steps are:</p>
+<ol type="1">
+<li>Confirm your data is numeric, complete, and scaled to [0, 1]</li>
+<li>Set up a pinned environment and fix all random seeds</li>
+<li>Build an encoder–bottleneck–decoder network</li>
+<li>Train and check the loss curves</li>
+<li>Extract the encoder output and compare to PCA</li>
+<li>Search for the right bottleneck size using validation loss</li>
+</ol>
 <hr>
 </section>
 <section id="references" class="level1 unnumbered">
