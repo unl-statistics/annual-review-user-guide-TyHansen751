@@ -36,5 +36,5 @@
 
 - You don't need the references section at the end of your guide.qmd file -- it will automatically be included later, so don't have two sections, it's confusing.
 
-
+- Data prerequisites -- what types of data are valid for this? PCA generally requires continuous variables -- do autoencoders? How is missingness handled? Even if you're using a test dataset, you need to include a description of what the user's data must look like.
 
