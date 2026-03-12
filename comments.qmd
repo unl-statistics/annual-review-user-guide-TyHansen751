@@ -1,0 +1,40 @@
+# Ty
+
+- Author name and user guide title not filled in in _quarto.yml -- this is something I mentioned in [user-guide-draft-comments](user-guide-draft-comments) on the first assignment. Read the comments!!!
+
+- "Visualization becomes impossible" -- see parallel coordinate plots and dimensional tours. It doesn't exactly become impossible, just more challenging :).
+
+- "simpler methods like PCA miss" -- what about things like manifold learning? or t-SNE/UMAP? There are a whole host of nonlinear dimension reduction techniques. (https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction)
+
+
+- (Formatting) Nice use of callouts!
+
+- (Formatting) If you split the text into separate files, each starting with a H1 header (# Introduction, # Prerequisites, etc.), you'll get a TOC that makes sense on the left side. You'll need to use index.qmd as the first file and then add your other files to the _quarto.yml file to include them in the document.
+
+- List (and cite) palmerpenguins in your prerequisites, please. Any package you use should also be cited as a reference.
+
+- You're also depending on conda -- that needs to be listed as a prerequisite, and you should link to the conda website that shows how to install it and set it up.
+
+- I generally recommend *not* pinning to specific versions of python packages because dependency hell is a definite thing -- for instance, I can't install the packages you listed because I have python 3.13.12 and it isn't compatible with scikit-learn 1.4.1. Unless there are *huge* differences in syntax, it's usually better to just say torch>=2.2.0 or something like that, because pip's dependency resolvers are good but not *that* good. Ugh, I hate package management in python even with envs.
+
+- You're using callouts very nicely. You could also mention just setting the python environment as an environment variable, which would remove the need to activate each time -- or just adding it to a project specific script to load it automatically: https://www.assertnotmagic.com/2018/06/30/python-startup-file/
+
+
+- 42 is a bad random seed. https://fetchdecodeexecute.substack.com/p/stop-using-42-as-a-random-seed
+
+- Each step should have text describing what is happening in the code and explaining each chunk of code. This is a writing class, and while there's coding, you still have to write coherent text explaining the code.
+
+- What about each subplot in Figure 9.1 is important? e.g. Validation loss should be higher than training loss but follow a similar pattern. But when a model has been over-fit to the training data, validation loss increases even though training loss is decreasing -- that indicates that the model is performing more poorly on validation data because it is overfit to the training data. If there is not decreasing loss with increasing iterations in the training data, the model is not learning. Something like that. Every plot has to be explained in the text, referenced, and discussed. Also, you might want to set the out-width parameter (https://quarto.org/docs/reference/cells/cells-knitr.html) for the chart so that it is only as wide as the text. I linked the knitr version, but I would assume there's a way to do the same thing with the jupyter engine.
+
+- In your steps, explain not just *what* to do by why it is done and the difference it makes. You have a very imperative structure here, which is fine, but you need to also explain and provide sufficient details so that someone can know what went wrong or begin to decode things.
+
+- What are the pros and cons of having no natural ordering? Does that mean there's no ordering along a single bottleneck dimension, or that B1 and B2 aren't hierarchically ordered? Be more specific.
+
+- I'd love to see a demonstration on this method for e.g. some of the datasets used in this experiment: https://arxiv.org/pdf/2506.22051, and specifically in the c-shaped data structure: https://github.com/JayaniLakshika/paper-nldr-vis-algorithm/tree/main/data/one_c_shaped_dens_structure
+
+- are there any other blogs/tutorials/online textbooks that talk about using autoencoders in additional depth that you can use as additonal resources in case someone gets stuck on the computational side of things?
+
+- You don't need the references section at the end of your guide.qmd file -- it will automatically be included later, so don't have two sections, it's confusing.
+
+
+
